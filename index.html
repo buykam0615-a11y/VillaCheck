@@ -318,6 +318,14 @@ header {
       <p>Хяналтын систем</p>
     </div>
 
+    <div class="field" id="gasUrlField">
+      <label>⚙️ APPS SCRIPT URL</label>
+      <input type="text" id="gasUrlInput"
+             placeholder="https://script.google.com/macros/s/.../exec"
+             style="font-size:11px; font-family:monospace;" />
+      <div style="font-size:11px;color:#aaa;margin-top:4px">Нэг удаа оруулвал хадгалагдана</div>
+    </div>
+    <div style="border-top:1px solid #f0f0f0; margin: 4px 0 16px;"></div>
     <div class="field">
       <label>ХЭРЭГЛЭГЧИЙН НЭР</label>
       <input type="text" id="loginUser" placeholder="username" autocomplete="username" />
@@ -423,14 +431,19 @@ window.addEventListener('DOMContentLoaded', () => {
   TOKEN    = localStorage.getItem('vc_token')     || '';
   USERNAME = localStorage.getItem('vc_username')  || '';
 
-  if (GAS_URL) document.getElementById('gasUrl').value = GAS_URL;
+  if (GAS_URL) {
+    document.getElementById('gasUrl').value = GAS_URL;
+    document.getElementById('gasUrlInput').value = GAS_URL;
+    // URL байгаа бол GAS URL талбарыг нуух
+    document.getElementById('gasUrlField').style.display = 'none';
+  }
 
   if (TOKEN && USERNAME) {
     showApp();
   }
 
   // Enter key on login
-  ['loginUser','loginPass'].forEach(id => {
+  ['loginUser','loginPass','gasUrlInput'].forEach(id => {
     document.getElementById(id).addEventListener('keydown', e => {
       if (e.key === 'Enter') doLogin();
     });
@@ -458,8 +471,17 @@ async function doLogin() {
   const btnTxt   = document.getElementById('loginBtnText');
 
   errEl.style.display = 'none';
+
+  // Login хуудасны URL талбараас авах
+  const gasInput = document.getElementById('gasUrlInput').value.trim();
+  if (gasInput && gasInput.startsWith('https://script.google.com')) {
+    GAS_URL = gasInput;
+    localStorage.setItem('vc_gas_url', GAS_URL);
+    document.getElementById('gasUrl').value = GAS_URL;
+  }
+
   if (!username || !password) { showLoginError('Нэр болон нүүц үгийг оруулна уу'); return; }
-  if (!GAS_URL) { showLoginError('Эхлээд Apps Script URL-г тохируулна уу'); return; }
+  if (!GAS_URL) { showLoginError('Apps Script URL оруулна уу (дээрх талбарт)'); return; }
 
   btn.disabled = true;
   btnTxt.innerHTML = '<span class="spinner"></span> Нэвтэрч байна…';
