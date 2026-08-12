@@ -3,518 +3,554 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VillaCheck</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>VillaCheck — Хяналт</title>
 <style>
 :root {
-  --bg:      #0d1117;
-  --bg2:     #161b22;
-  --bg3:     #21262d;
-  --glass:   rgba(255,255,255,0.04);
-  --border:  rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --gold:    #F5A623;
-  --gold-d:  #C47D0E;
-  --gold-g:  linear-gradient(135deg,#F5A623,#ff6b35);
-  --text:    #e6edf3;
-  --text-m:  #8b949e;
-  --text-s:  #6e7681;
-  --success: #3fb950;
-  --danger:  #f85149;
-  --r:       12px;
+  --orange:   #F5A623;
+  --orange-d: #C47D0E;
+  --orange-l: #FFF8ED;
+  --text:     #1a1a1a;
+  --text-m:   #6b7280;
+  --border:   #e5e7eb;
+  --surface:  #f9fafb;
+  --white:    #ffffff;
+  --radius:   10px;
+  --danger:   #ef4444;
+  --danger-l: #fef2f2;
+  --success:  #22c55e;
+  --success-l:#f0fdf4;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: var(--text); min-height: 100vh; }
 
-/* ── LOGIN ── */
-#loginWrap{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse at 30% 20%,rgba(245,166,35,.12) 0%,transparent 60%),
-             radial-gradient(ellipse at 70% 80%,rgba(255,107,53,.08) 0%,transparent 60%),
-             var(--bg);
+/* LOGIN */
+#loginPage {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #fff8ed 0%, #fef3c7 50%, #fff8ed 100%);
 }
-.login-box{
-  background:rgba(22,27,34,0.9);border:1px solid var(--border2);
-  border-radius:20px;padding:44px 40px;width:100%;max-width:400px;
-  backdrop-filter:blur(20px);box-shadow:0 24px 64px rgba(0,0,0,.5);
+.login-card {
+  background: var(--white); border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  padding: 40px 36px; width: 100%; max-width: 380px;
 }
-.login-logo{text-align:center;margin-bottom:32px}
-.login-logo .icon{font-size:52px;filter:drop-shadow(0 4px 16px rgba(245,166,35,.4))}
-.login-logo h1{font-size:24px;font-weight:700;color:var(--gold);margin-top:10px;letter-spacing:-.3px}
-.login-logo p{font-size:13px;color:var(--text-m);margin-top:4px}
+.login-logo { text-align: center; margin-bottom: 28px; }
+.login-logo .icon { font-size: 48px; }
+.login-logo h1 { font-size: 22px; font-weight: 700; color: var(--orange-d); margin-top: 8px; }
+.login-logo p  { font-size: 13px; color: var(--text-m); margin-top: 4px; }
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 12px; font-weight: 600; color: var(--text-m); margin-bottom: 6px; letter-spacing: 0.4px; }
+.field input {
+  width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 14px; color: var(--text); outline: none;
+}
+.field input:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(245,166,35,0.15); }
+.btn-login {
+  width: 100%; padding: 11px; background: var(--orange); color: white;
+  border: none; border-radius: 8px; font-size: 15px; font-weight: 600;
+  cursor: pointer; margin-top: 4px; display: flex; align-items: center;
+  justify-content: center; gap: 8px;
+}
+.btn-login:hover { background: var(--orange-d); }
+.btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+.login-error {
+  margin-top: 12px; padding: 10px 14px; background: var(--danger-l);
+  border: 1px solid #fca5a5; border-radius: 8px; color: var(--danger);
+  font-size: 13px; display: none;
+}
 
-.f{margin-bottom:16px}
-.f label{display:block;font-size:11px;font-weight:600;color:var(--text-m);margin-bottom:6px;letter-spacing:.6px;text-transform:uppercase}
-.f input{
-  width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:8px;font-size:14px;color:var(--text);outline:none;font-family:inherit;
-  transition:border-color .15s,box-shadow .15s;
+/* APP */
+#appPage { display: none; min-height: 100vh; }
+header {
+  background: var(--white); border-bottom: 3px solid var(--orange);
+  padding: 0 20px; height: 56px; display: flex; align-items: center; gap: 14px;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-.f input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,166,35,.15)}
-.f input::placeholder{color:var(--text-s)}
-.hint{font-size:11px;color:var(--text-s);margin-top:5px}
-.sep{border-top:1px solid var(--border);margin:16px 0}
+.logo { font-size: 18px; font-weight: 700; color: var(--orange-d); }
+.logo span { font-weight: 400; color: var(--text-m); font-size: 12px; margin-left: 4px; }
+.spacer { flex: 1; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+  border-radius: 8px; border: 1.5px solid var(--border); background: var(--white);
+  font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text); white-space: nowrap;
+}
+.btn:hover { background: var(--surface); }
+.btn-danger { border-color: #fca5a5; color: var(--danger); }
+.btn-danger:hover { background: var(--danger-l); }
+.btn-print { background: #1a1a1a; border-color: #1a1a1a; color: white; }
+.btn-print:hover { background: #333; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.btn-login{
-  width:100%;padding:12px;background:var(--gold-g);color:#000;border:none;border-radius:8px;
-  font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;
-  transition:opacity .15s,transform .1s;letter-spacing:-.1px;
+.main { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+.card {
+  background: var(--white); border-radius: var(--radius);
+  border: 1px solid var(--border); box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  padding: 18px 22px; margin-bottom: 18px;
 }
-.btn-login:hover{opacity:.9;transform:translateY(-1px)}
-.btn-login:active{transform:translateY(0)}
-.btn-login:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.lerr{
-  margin-top:14px;padding:10px 14px;background:rgba(248,81,73,.1);
-  border:1px solid rgba(248,81,73,.3);border-radius:8px;color:var(--danger);
-  font-size:13px;display:none;
-}
-.sp{width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
-@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── APP ── */
-#app{display:none;min-height:100vh}
+/* VILLA SELECTOR */
+.villa-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.villa-row label { font-weight: 600; font-size: 14px; }
+.villa-select {
+  flex: 1; min-width: 180px; padding: 9px 14px;
+  border: 2px solid var(--orange); border-radius: var(--radius);
+  font-size: 15px; font-weight: 600; color: var(--text); background: var(--white); outline: none;
+}
+.status-pill {
+  display: none; font-size: 12px; padding: 4px 12px;
+  border-radius: 20px; font-weight: 500;
+}
+.status-pill.loading { display: inline-block; background: var(--orange-l); color: var(--orange-d); }
+.status-pill.error   { display: inline-block; background: var(--danger-l); color: var(--danger); }
+.status-pill.ok      { display: inline-block; background: var(--success-l); color: #15803d; }
 
-header{
-  background:rgba(13,17,23,.95);border-bottom:1px solid var(--border);
-  padding:0 24px;height:60px;display:flex;align-items:center;gap:16px;
-  position:sticky;top:0;z-index:100;backdrop-filter:blur(16px);
+/* TABLE */
+.cp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.cp-table thead tr { background: var(--orange); color: white; }
+.cp-table thead th {
+  padding: 10px 12px; text-align: left; font-size: 12px;
+  font-weight: 600; letter-spacing: 0.3px;
 }
-.hlogo{
-  font-size:16px;font-weight:700;
-  background:var(--gold-g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  display:flex;align-items:center;gap:8px;
+.cp-table tbody tr:nth-child(even) { background: var(--surface); }
+.cp-table tbody tr:hover { background: var(--orange-l); }
+.cp-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle;
 }
-.hsp{flex:1}
-.huser{font-size:13px;color:var(--text-m);display:flex;align-items:center;gap:6px}
-.huser strong{color:var(--text)}
-.hbtn{
-  padding:6px 16px;border-radius:8px;border:1px solid rgba(248,81,73,.3);
-  background:rgba(248,81,73,.08);font-size:13px;font-weight:500;cursor:pointer;
-  color:var(--danger);font-family:inherit;transition:all .15s;
-}
-.hbtn:hover{background:rgba(248,81,73,.15)}
+.col-num  { width: 44px; text-align: center; color: var(--text-m); font-weight: 600; }
+.col-room { width: 130px; font-weight: 500; }
+.col-cnt  { width: 70px; text-align: center; }
+.col-note { width: 140px; }
+.col-img  { width: 80px; text-align: center; }
 
-.main{max-width:1100px;margin:0 auto;padding:24px 20px}
+/* Тэмдэглэл input */
+.note-input {
+  width: 100%; border: none; border-bottom: 1.5px solid #ddd;
+  background: transparent; font-size: 13px; padding: 2px 4px; outline: none;
+}
+.note-input:focus { border-bottom-color: var(--orange); }
 
-/* Villa selector card */
-.sel-card{
-  background:var(--glass);border:1px solid var(--border);border-radius:var(--r);
-  padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+/* Зураг */
+.thumb {
+  width: 60px; height: 60px; object-fit: cover;
+  border-radius: 6px; cursor: pointer; border: 1px solid var(--border);
+  transition: transform 0.15s;
 }
-.sel-card label{font-size:14px;font-weight:600;color:var(--text-m);white-space:nowrap}
-.vsel{
-  flex:1;min-width:200px;padding:10px 16px;background:var(--bg3);border:1px solid var(--border2);
-  border-radius:8px;font-size:15px;font-weight:600;color:var(--text);outline:none;
-  cursor:pointer;font-family:inherit;transition:border-color .15s;
-}
-.vsel:focus{border-color:var(--gold)}
-.vsel option{background:var(--bg2)}
-
-.pill{display:none;font-size:12px;padding:4px 12px;border-radius:20px;font-weight:500}
-.pill.ok{display:inline-block;background:rgba(63,185,80,.12);color:var(--success);border:1px solid rgba(63,185,80,.2)}
-.pill.er{display:inline-block;background:rgba(248,81,73,.12);color:var(--danger);border:1px solid rgba(248,81,73,.2)}
-.pill.ld{display:inline-block;background:rgba(245,166,35,.12);color:var(--gold);border:1px solid rgba(245,166,35,.2)}
-
-.pbtn{
-  padding:9px 18px;border-radius:8px;border:1px solid var(--border2);
-  background:var(--bg3);font-size:13px;font-weight:500;cursor:pointer;color:var(--text);
-  font-family:inherit;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;
-}
-.pbtn:hover{background:var(--glass);border-color:var(--gold)}
-.pbtn:disabled{opacity:.4;cursor:not-allowed}
-
-/* Content card */
-.content-card{
-  background:var(--glass);border:1px solid var(--border);border-radius:var(--r);
-  padding:24px;
-}
-.ctop{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-.ctitle{font-size:20px;font-weight:700;letter-spacing:-.3px}
-.csub{font-size:13px;color:var(--text-m);margin-top:4px}
-
-/* Room tabs */
-.room-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
-.rtab{
-  padding:7px 16px;border-radius:20px;border:1px solid var(--border);
-  background:var(--bg3);font-size:13px;font-weight:500;cursor:pointer;color:var(--text-m);
-  font-family:inherit;transition:all .15s;white-space:nowrap;
-}
-.rtab:hover{border-color:var(--border2);color:var(--text)}
-.rtab.active{background:var(--gold-g);border-color:transparent;color:#000;font-weight:700}
-.rtab .rc{
-  display:inline-block;background:rgba(0,0,0,.2);color:inherit;
-  font-size:11px;padding:1px 6px;border-radius:10px;margin-left:5px;
-}
-.rtab.active .rc{background:rgba(0,0,0,.25)}
-
-/* Item grid */
-.item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
-.item-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  overflow:hidden;transition:border-color .15s,transform .15s,box-shadow .15s;cursor:default;
-}
-.item-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.item-img-wrap{width:100%;height:150px;overflow:hidden;position:relative;background:var(--bg3)}
-.item-img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;transition:transform .2s}
-.item-img:hover{transform:scale(1.05)}
-.item-ph{width:100%;height:150px;display:flex;align-items:center;justify-content:center;background:var(--bg3);font-size:36px;color:var(--text-s)}
-.item-loading{
-  width:100%;height:150px;display:flex;align-items:center;justify-content:center;
-  background:var(--bg3);
-}
-.img-sp{
-  width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--gold);
-  border-radius:50%;animation:spin .8s linear infinite;
-}
-.item-body{padding:12px 14px}
-.item-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:6px}
-.item-qty{
-  font-size:11px;color:var(--text-s);margin-bottom:10px;display:flex;align-items:center;gap:4px;
-}
-.qty-badge{
-  background:rgba(245,166,35,.15);color:var(--gold);border:1px solid rgba(245,166,35,.2);
-  font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px;
-}
-.item-note{
-  width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);
-  font-size:12px;color:var(--text-m);padding:4px 2px;outline:none;font-family:inherit;
-  transition:border-color .15s;
-}
-.item-note:focus{border-bottom-color:var(--gold);color:var(--text)}
-.item-note::placeholder{color:var(--text-s)}
-
-/* Empty / loading */
-.emp{text-align:center;padding:60px 20px;color:var(--text-m)}
-.emp .ei{font-size:44px;margin-bottom:14px;opacity:.6}
-.emp p{font-size:14px}
+.thumb:hover { transform: scale(1.08); }
+.no-img { color: #ccc; font-size: 20px; }
+.img-loading { font-size: 18px; animation: spin 1s linear infinite; display: inline-block; }
 
 /* Lightbox */
-#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:14px;backdrop-filter:blur(8px)}
-#lb.open{display:flex}
-#lb img{max-width:90vw;max-height:82vh;border-radius:10px;box-shadow:0 24px 80px rgba(0,0,0,.7)}
-#lb .lbc{position:absolute;top:18px;right:22px;color:rgba(255,255,255,.7);font-size:30px;cursor:pointer;line-height:1;transition:color .1s}
-#lb .lbc:hover{color:#fff}
-#lb .lbcap{color:var(--text-m);font-size:13px}
+#lightbox {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 90vw; max-height: 80vh; border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+#lightbox .lb-close {
+  position: absolute; top: 16px; right: 20px; color: white;
+  font-size: 32px; cursor: pointer; line-height: 1;
+}
+#lightbox .lb-caption { color: #ddd; font-size: 13px; }
 
-/* Room section (print only uses) */
-.room-section{display:none}
-.room-section.active-section{display:block}
+/* Empty state */
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text-m); }
+.empty-state .icon { font-size: 36px; margin-bottom: 10px; }
 
-@media print{
-  body,#app{background:#fff!important;color:#000!important}
-  #loginWrap,header,.sel-card,.room-tabs{display:none!important}
-  .content-card{border:none!important;background:#fff!important;padding:0!important}
-  .room-section{display:block!important}
-  .item-grid{grid-template-columns:repeat(3,1fr);gap:8px}
-  .item-card{background:#fff!important;border:1px solid #ddd!important;break-inside:avoid}
-  .item-img-wrap,.item-ph,.item-loading{height:110px!important}
-  .item-body{padding:8px 10px}
-  .item-name{font-size:11pt;color:#000}
-  .item-qty{color:#555}
-  .qty-badge{background:#f5f5f5;color:#333;border-color:#ddd}
-  .ctitle{color:#000;font-size:16pt}
-  .csub{color:#555}
-  #lb{display:none!important}
+/* Spinner */
+.spinner {
+  width: 15px; height: 15px; border: 2px solid rgba(245,166,35,0.3);
+  border-top-color: var(--orange); border-radius: 50%;
+  animation: spin 0.7s linear infinite; display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* PRINT */
+.print-header {
+  display: none; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 16px; border-bottom: 3px solid var(--orange); padding-bottom: 10px;
+}
+.ph-logo  { font-size: 18pt; font-weight: 700; color: #C47D0E; }
+.ph-sub   { font-size: 10pt; color: #555; }
+.ph-right { text-align: right; font-size: 10pt; color: #555; }
+.ph-villa { font-size: 14pt; font-weight: 700; }
+
+@media print {
+  #loginPage, header, #villaCard { display: none !important; }
+  body { background: white; }
+  .main { max-width: 100%; padding: 0; }
+  .card { border: none !important; box-shadow: none !important; }
+  .print-header { display: flex !important; }
+  .cp-table { font-size: 10pt; }
+  .cp-table thead tr { background: #F5A623 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .col-img { display: none; }
+  .note-input { border-bottom: 1px solid #999; }
 }
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div id="loginWrap">
-  <div class="login-box">
+<div id="loginPage">
+  <div class="login-card">
     <div class="login-logo">
       <div class="icon">🏡</div>
       <h1>VillaCheck</h1>
       <p>Хяналтын систем</p>
     </div>
-    <div class="f">
-      <label>Хэрэглэгчийн нэр</label>
-      <input type="text" id="uname" placeholder="username" autocomplete="username"/>
+    <div class="field" id="gasUrlField">
+      <label>⚙️ APPS SCRIPT URL</label>
+      <input type="text" id="gasUrlInput"
+             placeholder="https://script.google.com/macros/s/.../exec"
+             style="font-size:11px;font-family:monospace;" />
+      <div style="font-size:11px;color:#aaa;margin-top:4px">Нэг удаа оруулвал хадгалагдана</div>
     </div>
-    <div class="f">
-      <label>Нүүц үг</label>
-      <input type="password" id="upass" placeholder="••••••••" autocomplete="current-password"/>
+    <div style="border-top:1px solid #f0f0f0;margin:4px 0 16px;"></div>
+    <div class="field">
+      <label>ХЭРЭГЛЭГЧИЙН НЭР</label>
+      <input type="text" id="loginUser" placeholder="username" autocomplete="username" />
     </div>
-    <button class="btn-login" id="lbtn" onclick="doLogin()">Нэвтрэх</button>
-    <div class="lerr" id="lerr"></div>
+    <div class="field">
+      <label>НҮҮЦ ҮГ</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">
+      <span id="loginBtnText">Нэвтрэх</span>
+    </button>
+    <div class="login-error" id="loginError"></div>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app">
+<div id="appPage">
   <header>
-    <div class="hlogo">🏡 VillaCheck</div>
-    <div class="hsp"></div>
-    <div class="huser">👤 <strong id="husr"></strong></div>
-    <button class="hbtn" onclick="doLogout()">Гарах</button>
+    <div class="logo">🏡 VillaCheck <span>Хяналт</span></div>
+    <div class="spacer"></div>
+    <div style="font-size:12px;color:var(--text-m)">👤 <strong id="headerUser"></strong></div>
+    <button class="btn btn-danger" onclick="doLogout()">Гарах</button>
   </header>
 
   <div class="main">
+
     <!-- Villa сонгох -->
-    <div class="sel-card">
-      <label>🏡 Villa</label>
-      <select class="vsel" id="vsel" onchange="loadCP()">
-        <option value="">— сонгоно уу —</option>
-      </select>
-      <span class="pill" id="st"></span>
-      <button class="pbtn" id="pbtn" onclick="doPrint()" disabled>🖨 Хэвлэх</button>
+    <div class="card" id="villaCard" style="display:none">
+      <div class="villa-row">
+        <label>🏡 Villa:</label>
+        <select class="villa-select" id="villaSelect" onchange="loadCheckpoints()">
+          <option value="">— Villa сонгоно уу —</option>
+        </select>
+        <span class="status-pill" id="mainStatus"></span>
+        <button class="btn btn-print" id="printBtn" onclick="window.print()" disabled>🖨️ Хэвлэх</button>
+      </div>
     </div>
 
-    <!-- Хяналт -->
-    <div class="content-card" id="tcard" style="display:none">
-      <div class="ctop">
-        <div class="ctitle" id="ttitle"></div>
-        <div class="csub" id="tsub"></div>
+    <!-- Preview/Table -->
+    <div class="card" id="previewCard" style="display:none">
+      <!-- Print header -->
+      <div class="print-header" id="printHeader">
+        <div>
+          <div class="ph-logo">🏡 VillaCheck</div>
+          <div class="ph-sub">Хяналтын тайлан</div>
+        </div>
+        <div class="ph-right">
+          <div class="ph-villa" id="phVilla"></div>
+          <div id="phDate"></div>
+          <div style="margin-top:4px">Нийт: <strong id="phTotal"></strong> зүйл</div>
+        </div>
       </div>
-      <!-- Room tabs -->
-      <div class="room-tabs" id="roomTabs"></div>
-      <!-- Grid -->
-      <div id="tc">
-        <div class="emp"><div class="ei">🏠</div><p>Villa сонгоно уу</p></div>
+
+      <!-- Screen title -->
+      <div id="previewMeta" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="font-size:16px;font-weight:700" id="previewTitle"></div>
+          <div style="font-size:12px;color:var(--text-m)" id="previewSub"></div>
+        </div>
+      </div>
+
+      <div id="tableContainer">
+        <div class="empty-state"><div class="icon">🏠</div><p>Villa сонгоно уу</p></div>
       </div>
     </div>
+
   </div>
 </div>
 
 <!-- Lightbox -->
-<div id="lb" onclick="closeLb()">
-  <span class="lbc">✕</span>
-  <img id="lbimg" src="" alt="">
-  <div class="lbcap" id="lbcap"></div>
+<div id="lightbox" onclick="closeLightbox()">
+  <span class="lb-close">✕</span>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-caption" id="lbCaption"></div>
 </div>
 
 <script>
-var GAS='https://script.google.com/macros/s/AKfycbzNpJUY5nLQ1RigNQvU-nWpQdz-jU3CJWIDYerH7MV5vrgtOvocFUFoT0B4WNxMH5Cg9Q/exec';
-var TOKEN='', USER='';
-var cache={};
-var allGroups=[];
-var activeRoom='';
+// ══ STATE ══
+let GAS_URL  = '';
+let TOKEN    = '';
+let USERNAME = '';
+const imgCache = {}; // pictureId → base64 url
 
-window.onload = function() {
-  TOKEN = localStorage.getItem('vc_tok') || '';
-  USER  = localStorage.getItem('vc_usr') || '';
-  if (TOKEN && USER) { showApp(); return; }
-  document.getElementById('loginWrap').style.display = 'flex';
-};
+// ══ INIT ══
+window.addEventListener('DOMContentLoaded', () => {
+  GAS_URL  = localStorage.getItem('vc_gas_url')  || '';
+  TOKEN    = localStorage.getItem('vc_token')     || '';
+  USERNAME = localStorage.getItem('vc_username')  || '';
 
-function doLogin() {
-  var u=document.getElementById('uname').value.trim();
-  var p=document.getElementById('upass').value.trim();
-  var btn=document.getElementById('lbtn');
-  document.getElementById('lerr').style.display='none';
-  if (!u||!p) { showErr('Нэр болон нүүц үгийг оруулна уу'); return; }
-  btn.disabled=true;
-  btn.innerHTML='<span class="sp"></span>Нэвтэрч байна…';
-  gasPost({action:'login',username:u,password:p})
-    .then(function(r){
-      if(r.ok){
-        TOKEN=r.token; USER=r.username;
-        localStorage.setItem('vc_tok',TOKEN);
-        localStorage.setItem('vc_usr',USER);
-        showApp();
-      } else showErr(r.error||'Нэвтрэх амжилтгүй');
-    })
-    .catch(function(e){ showErr('Холбогдсонгүй: '+e.message); })
-    .finally(function(){ btn.disabled=false; btn.textContent='Нэвтрэх'; });
+  if (GAS_URL) {
+    document.getElementById('gasUrlInput').value = GAS_URL;
+    document.getElementById('gasUrlField').style.display = 'none';
+  }
+  if (TOKEN && USERNAME) showApp();
+
+  ['loginUser','loginPass','gasUrlInput'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+  });
+});
+
+// ══ LOGIN ══
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value.trim();
+  const errEl    = document.getElementById('loginError');
+  const btn      = document.getElementById('loginBtn');
+  const btnTxt   = document.getElementById('loginBtnText');
+
+  errEl.style.display = 'none';
+
+  const gasInput = document.getElementById('gasUrlInput').value.trim();
+  if (gasInput && gasInput.startsWith('https://script.google.com')) {
+    GAS_URL = gasInput;
+    localStorage.setItem('vc_gas_url', GAS_URL);
+  }
+
+  if (!username || !password) { showLoginError('Нэр болон нүүц үгийг оруулна уу'); return; }
+  if (!GAS_URL) { showLoginError('Apps Script URL оруулна уу'); return; }
+
+  btn.disabled = true;
+  btnTxt.innerHTML = '<span class="spinner"></span> Нэвтэрч байна…';
+
+  try {
+    const res = await gasPost({ action: 'login', username, password });
+    if (res.ok) {
+      TOKEN    = res.token;
+      USERNAME = res.username;
+      localStorage.setItem('vc_token',    TOKEN);
+      localStorage.setItem('vc_username', USERNAME);
+      showApp();
+    } else {
+      showLoginError(res.error || 'Нэвтрэх амжилтгүй');
+    }
+  } catch(e) {
+    showLoginError('Серверт холбогдсонгүй: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btnTxt.textContent = 'Нэвтрэх';
+  }
 }
-function showErr(m){ var e=document.getElementById('lerr'); e.textContent=m; e.style.display='block'; }
 
-function showApp(){
-  document.getElementById('loginWrap').style.display='none';
-  document.getElementById('app').style.display='block';
-  document.getElementById('husr').textContent=USER;
-  document.getElementById('tcard').style.display='';
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function showApp() {
+  document.getElementById('loginPage').style.display  = 'none';
+  document.getElementById('appPage').style.display    = '';
+  document.getElementById('headerUser').textContent   = USERNAME;
+  document.getElementById('villaCard').style.display  = '';
+  document.getElementById('previewCard').style.display = '';
   loadBuildings();
 }
-function doLogout(){
-  TOKEN=''; USER='';
-  localStorage.removeItem('vc_tok');
-  localStorage.removeItem('vc_usr');
-  localStorage.removeItem('vc_gas');
-  location.reload();
+
+// ══ LOGOUT ══
+function doLogout() {
+  TOKEN = ''; USERNAME = '';
+  localStorage.removeItem('vc_token');
+  localStorage.removeItem('vc_username');
+  document.getElementById('loginPage').style.display = '';
+  document.getElementById('appPage').style.display   = 'none';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
 }
 
-function loadBuildings(){
-  setSt('Уншиж байна…','ld');
-  gasPost({action:'getBuildings',token:TOKEN})
-    .then(function(r){
-      if(!r.ok){setSt(r.error,'er');return;}
-      var s=document.getElementById('vsel');
-      s.innerHTML='<option value="">— сонгоно уу —</option>';
-      (r.data||[]).forEach(function(n){
-        var o=document.createElement('option'); o.value=o.textContent=n; s.appendChild(o);
-      });
-      setSt(r.data.length+' villa','ok');
-      setTimeout(function(){setSt('','');},2500);
-    })
-    .catch(function(e){setSt('Алдаа: '+e.message,'er');});
-}
-
-function loadCP(){
-  var v=document.getElementById('vsel').value;
-  if(!v) return;
-  var tc=document.getElementById('tc');
-  document.getElementById('roomTabs').innerHTML='';
-  tc.innerHTML='<div class="emp"><div class="img-sp" style="width:36px;height:36px;margin:0 auto 16px"></div><p>Уншиж байна…</p></div>';
-  setSt('Уншиж байна…','ld');
-  document.getElementById('pbtn').disabled=true;
-  allGroups=[];
-
-  gasPost({action:'getCheckpoints',token:TOKEN,villa:v})
-    .then(function(r){
-      if(!r.ok){
-        tc.innerHTML='<div class="emp"><div class="ei">⚠️</div><p>'+esc(r.error)+'</p></div>';
-        setSt(r.error,'er'); return;
-      }
-      allGroups=r.data||[];
-      var total=allGroups.reduce(function(s,g){return s+g.items.length;},0);
-      setSt(total+' тавилга','ok');
-      document.getElementById('pbtn').disabled=false;
-      var now=new Date();
-      var ds=now.getFullYear()+'/'+pad(now.getMonth()+1)+'/'+pad(now.getDate());
-      document.getElementById('ttitle').textContent='🏡 '+v;
-      document.getElementById('tsub').textContent=total+' тавилга · '+ds;
-      buildTabs();
-      if(allGroups.length>0) showRoom(allGroups[0].room);
-    })
-    .catch(function(e){
-      tc.innerHTML='<div class="emp"><div class="ei">❌</div><p>'+esc(e.message)+'</p></div>';
-      setSt('Алдаа','er');
+// ══ BUILDINGS ══
+async function loadBuildings() {
+  setStatus('Уншиж байна…', 'loading');
+  try {
+    const res = await gasPost({ action: 'getBuildings', token: TOKEN });
+    if (!res.ok) { setStatus(res.error, 'error'); return; }
+    const sel = document.getElementById('villaSelect');
+    sel.innerHTML = '<option value="">— Villa сонгоно уу —</option>';
+    (res.data || []).forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = opt.textContent = name;
+      sel.appendChild(opt);
     });
+    setStatus(res.data.length + ' villa', 'ok');
+    setTimeout(() => setStatus('', ''), 2000);
+  } catch(e) {
+    setStatus('Алдаа: ' + e.message, 'error');
+  }
 }
 
-function buildTabs(){
-  var tabs=document.getElementById('roomTabs');
-  tabs.innerHTML='';
-  allGroups.forEach(function(g){
-    var btn=document.createElement('button');
-    btn.className='rtab';
-    btn.innerHTML=esc(g.room)+' <span class="rc">'+g.items.length+'</span>';
-    btn.onclick=function(){ showRoom(g.room); };
-    btn.dataset.room=g.room;
-    tabs.appendChild(btn);
-  });
-}
+// ══ CHECKPOINTS ══
+async function loadCheckpoints() {
+  const villa = document.getElementById('villaSelect').value;
+  if (!villa) return;
 
-function showRoom(roomName){
-  activeRoom=roomName;
-  // Tab active
-  document.querySelectorAll('.rtab').forEach(function(b){
-    b.classList.toggle('active', b.dataset.room===roomName);
-  });
-  // Grid
-  var group=allGroups.find(function(g){return g.room===roomName;});
-  if(!group) return;
-  var tc=document.getElementById('tc');
-  var html='<div class="item-grid">';
-  group.items.forEach(function(item,idx){
-    var cid='c_'+idx;
-    html+='<div class="item-card">';
-    if(item.picPath){
-      html+='<div class="item-loading" id="il_'+cid+'"><div class="img-sp"></div></div>';
-    } else {
-      html+='<div class="item-ph">🪑</div>';
+  const container = document.getElementById('tableContainer');
+  container.innerHTML = '<div style="text-align:center;padding:40px"><span class="spinner"></span> <span style="margin-left:8px;color:#888;font-size:13px">Уншиж байна…</span></div>';
+  setStatus('Уншиж байна…', 'loading');
+  document.getElementById('printBtn').disabled = true;
+
+  try {
+    const res = await gasPost({ action: 'getCheckpoints', token: TOKEN, villa });
+    if (!res.ok) {
+      container.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>${esc(res.error)}</p></div>`;
+      setStatus(res.error, 'error'); return;
     }
-    html+='<div class="item-body">';
-    html+='<div class="item-name">'+esc(item.furniture)+'</div>';
-    html+='<div class="item-qty">Ширхэг: <span class="qty-badge">'+esc(item.qty||'—')+'</span></div>';
-    html+='<input class="item-note" type="text" placeholder="Тэмдэглэл…" value="'+esc(item.comment||'')+'"/>';
-    html+='</div></div>';
+
+    renderTable(res.data || [], villa);
+    setStatus((res.data||[]).length + ' шалгах зүйл', 'ok');
+    document.getElementById('printBtn').disabled = false;
+
+    const now = new Date();
+    const ds  = now.getFullYear() + '/' + pad(now.getMonth()+1) + '/' + pad(now.getDate());
+    document.getElementById('previewTitle').textContent = '🏡 ' + villa;
+    document.getElementById('previewSub').textContent   = (res.data||[]).length + ' шалгах зүйл · ' + ds;
+    document.getElementById('phVilla').textContent = villa;
+    document.getElementById('phDate').textContent  = ds;
+    document.getElementById('phTotal').textContent = (res.data||[]).length;
+
+  } catch(e) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">❌</div><p>Алдаа: ${esc(e.message)}</p></div>`;
+    setStatus('Алдаа', 'error');
+  }
+}
+
+// ══ RENDER TABLE ══
+function renderTable(rows, villa) {
+  if (!rows.length) {
+    document.getElementById('tableContainer').innerHTML =
+      `<div class="empty-state"><div class="icon">🔍</div><p>"${esc(villa)}" вилла-д өгөгдөл олдсонгүй</p></div>`;
+    return;
+  }
+
+  let html = `
+    <table class="cp-table">
+      <thead><tr>
+        <th class="col-num">№</th>
+        <th class="col-room">Өрөө</th>
+        <th class="col-cnt">Ширхэг</th>
+        <th>Тэмдэглэл</th>
+        <th class="col-img">Зураг</th>
+      </tr></thead>
+      <tbody>`;
+
+  rows.forEach((r, i) => {
+    const pid = r.pictureId || '';
+    const imgId = 'img_' + i;
+    let imgCell = '';
+    if (pid) {
+      imgCell = `<span class="img-loading" id="${imgId}_spin">⏳</span>`;
+    } else {
+      imgCell = `<span class="no-img">—</span>`;
+    }
+
+    html += `<tr>
+      <td class="col-num">${esc(r.num)}</td>
+      <td class="col-room">${esc(r.room)}</td>
+      <td class="col-cnt">${esc(r.shirkheg)}</td>
+      <td><input class="note-input" type="text" placeholder="Тэмдэглэл…" /></td>
+      <td class="col-img" id="${imgId}_cell">${imgCell}</td>
+    </tr>`;
   });
-  html+='</div>';
-  tc.innerHTML=html;
-  // Load images
-  group.items.forEach(function(item,idx){
-    if(!item.picPath) return;
-    var cid='c_'+idx;
-    loadImg(item.picPath, cid, item.furniture);
+
+  html += '</tbody></table>';
+  document.getElementById('tableContainer').innerHTML = html;
+
+  // Зургуудыг асинхронаар ачаалах
+  rows.forEach((r, i) => {
+    if (r.pictureId) loadImage(r.pictureId, i, r.room);
   });
 }
 
-function loadImg(picPath, cid, caption){
-  if(cache[picPath]){ showThumb(cid, cache[picPath], caption); return; }
-  gasPost({action:'getImage', token:TOKEN, picturePath:picPath})
-    .then(function(r){
-      if(r.ok && r.data){
-        cache[picPath]=r.data;
-        showThumb(cid, r.data, caption);
-      } else {
-        var el=document.getElementById('il_'+cid);
-        if(el) el.outerHTML='<div class="item-ph">🖼️</div>';
-      }
-    })
-    .catch(function(){
-      var el=document.getElementById('il_'+cid);
-      if(el) el.outerHTML='<div class="item-ph">🖼️</div>';
-    });
+// ══ LOAD IMAGE ══
+async function loadImage(pictureId, idx, caption) {
+  const cellId = 'img_' + idx + '_cell';
+  const spinId = 'img_' + idx + '_spin';
+
+  // Cache шалгах
+  if (imgCache[pictureId]) {
+    showThumb(cellId, imgCache[pictureId], caption);
+    return;
+  }
+
+  try {
+    const res = await gasPost({ action: 'getImage', token: TOKEN, pictureId });
+    if (res.ok && res.data) {
+      imgCache[pictureId] = res.data;
+      showThumb(cellId, res.data, caption);
+    } else {
+      const cell = document.getElementById(cellId);
+      if (cell) cell.innerHTML = '<span class="no-img" title="' + esc(res.error||'') + '">❌</span>';
+    }
+  } catch(e) {
+    const cell = document.getElementById(cellId);
+    if (cell) cell.innerHTML = '<span class="no-img">❌</span>';
+  }
 }
 
-function showThumb(cid, src, caption){
-  var el=document.getElementById('il_'+cid);
-  if(!el) return;
-  var wrap=document.createElement('div');
-  wrap.className='item-img-wrap';
-  var img=document.createElement('img');
-  img.className='item-img'; img.src=src; img.alt=caption||'';
-  img.onclick=function(e){ e.stopPropagation(); openLb(src,caption); };
-  wrap.appendChild(img);
-  el.parentNode.replaceChild(wrap, el);
+function showThumb(cellId, src, caption) {
+  const cell = document.getElementById(cellId);
+  if (!cell) return;
+  const img = document.createElement('img');
+  img.className = 'thumb';
+  img.src = src;
+  img.alt = caption || '';
+  img.onclick = () => openLightbox(src, caption);
+  cell.innerHTML = '';
+  cell.appendChild(img);
 }
 
-function openLb(src,cap){
-  document.getElementById('lbimg').src=src;
-  document.getElementById('lbcap').textContent=cap||'';
-  document.getElementById('lb').classList.add('open');
+// ══ LIGHTBOX ══
+function openLightbox(src, caption) {
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lbCaption').textContent = caption || '';
+  document.getElementById('lightbox').classList.add('open');
 }
-function closeLb(){
-  document.getElementById('lb').classList.remove('open');
-  document.getElementById('lbimg').src='';
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lbImg').src = '';
 }
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb();});
-
-function doPrint(){
-  // Print үед бүх өрөөг харуулах
-  var tc=document.getElementById('tc');
-  var orig=tc.innerHTML;
-  var all='';
-  allGroups.forEach(function(g){
-    all+='<div style="margin-bottom:28px"><div style="font-size:14pt;font-weight:700;border-bottom:2px solid #F5A623;padding-bottom:6px;margin-bottom:12px;color:#C47D0E">'+esc(g.room)+'</div>';
-    all+='<div class="item-grid">';
-    g.items.forEach(function(item,idx){
-      var src=cache[item.picPath]||'';
-      all+='<div class="item-card">';
-      if(src) all+='<div class="item-img-wrap"><img class="item-img" src="'+src+'" alt=""/></div>';
-      else all+='<div class="item-ph">🪑</div>';
-      all+='<div class="item-body"><div class="item-name">'+esc(item.furniture)+'</div>';
-      all+='<div class="item-qty">Ширхэг: <span class="qty-badge">'+esc(item.qty||'—')+'</span></div>';
-      all+='<input class="item-note" type="text" value="'+esc(item.comment||'')+'" placeholder="Тэмдэглэл…"/>';
-      all+='</div></div>';
-    });
-    all+='</div></div>';
-  });
-  tc.innerHTML=all;
-  window.print();
-  tc.innerHTML=orig;
-  showRoom(activeRoom);
-}
-
-function gasPost(body){
-  return fetch(GAS,{
-    method:'POST',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify(body),
-    redirect:'follow'
-  }).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); });
-}
-function setSt(msg,type){ var e=document.getElementById('st'); e.textContent=msg; e.className='pill'+(type?' '+type:''); }
-function esc(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function pad(n){ return String(n).padStart(2,'0'); }
-['uname','upass'].forEach(function(id){
-  var el=document.getElementById(id);
-  if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
 });
+
+// ══ GAS POST ══
+async function gasPost(body) {
+  const res = await fetch(GAS_URL, {
+    method:   'POST',
+    headers:  { 'Content-Type': 'text/plain;charset=utf-8' },
+    body:     JSON.stringify(body),
+    redirect: 'follow'
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+// ══ HELPERS ══
+function setStatus(msg, type) {
+  const el = document.getElementById('mainStatus');
+  el.textContent = msg;
+  el.className   = 'status-pill ' + (type || '');
+}
+function esc(s) {
+  return (s||'').toString()
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function pad(n) { return String(n).padStart(2,'0'); }
 </script>
 </body>
 </html>
