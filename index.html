@@ -230,12 +230,6 @@ header{
       <p>Хяналтын систем</p>
     </div>
     <div class="f">
-      <label>⚙ Apps Script URL</label>
-      <input type="text" id="gasIn" placeholder="https://script.google.com/macros/s/.../exec" style="font-size:11px;font-family:monospace"/>
-      <div class="hint">Нэг удаа оруулвал хадгалагдана</div>
-    </div>
-    <div class="sep"></div>
-    <div class="f">
       <label>Хэрэглэгчийн нэр</label>
       <input type="text" id="uname" placeholder="username" autocomplete="username"/>
     </div>
@@ -292,29 +286,25 @@ header{
 </div>
 
 <script>
-var GAS='', TOKEN='', USER='';
+var GAS='https://script.google.com/macros/s/AKfycbzNpJUY5nLQ1RigNQvU-nWpQdz-jU3CJWIDYerH7MV5vrgtOvocFUFoT0B4WNxMH5Cg9Q/exec';
+var TOKEN='', USER='';
 var cache={};
 var allGroups=[];
 var activeRoom='';
 
 window.onload = function() {
-  GAS   = localStorage.getItem('vc_gas') || '';
   TOKEN = localStorage.getItem('vc_tok') || '';
   USER  = localStorage.getItem('vc_usr') || '';
-  if (GAS) document.getElementById('gasIn').value = GAS;
-  if (TOKEN && USER && GAS) { showApp(); return; }
+  if (TOKEN && USER) { showApp(); return; }
   document.getElementById('loginWrap').style.display = 'flex';
 };
 
 function doLogin() {
-  var g=document.getElementById('gasIn').value.trim();
   var u=document.getElementById('uname').value.trim();
   var p=document.getElementById('upass').value.trim();
   var btn=document.getElementById('lbtn');
   document.getElementById('lerr').style.display='none';
-  if (g && g.indexOf('script.google.com')>-1) { GAS=g; localStorage.setItem('vc_gas',g); }
   if (!u||!p) { showErr('Нэр болон нүүц үгийг оруулна уу'); return; }
-  if (!GAS)   { showErr('Apps Script URL оруулна уу'); return; }
   btn.disabled=true;
   btn.innerHTML='<span class="sp"></span>Нэвтэрч байна…';
   gasPost({action:'login',username:u,password:p})
@@ -342,6 +332,7 @@ function doLogout(){
   TOKEN=''; USER='';
   localStorage.removeItem('vc_tok');
   localStorage.removeItem('vc_usr');
+  localStorage.removeItem('vc_gas');
   location.reload();
 }
 
@@ -520,7 +511,7 @@ function gasPost(body){
 function setSt(msg,type){ var e=document.getElementById('st'); e.textContent=msg; e.className='pill'+(type?' '+type:''); }
 function esc(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function pad(n){ return String(n).padStart(2,'0'); }
-['gasIn','uname','upass'].forEach(function(id){
+['uname','upass'].forEach(function(id){
   var el=document.getElementById(id);
   if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 });
