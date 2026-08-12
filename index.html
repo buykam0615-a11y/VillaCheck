@@ -467,11 +467,12 @@ function showRoom(roomName){
 
 function loadImg(picPath, cid, caption, assetId){
   if(cache[picPath]){ showThumb(cid, cache[picPath], caption, picPath, assetId||''); return; }
-  gasPost({action:'getImage', token:TOKEN, picturePath:picPath})
+  gasPost({action:'getImageUrl', token:TOKEN, picturePath:picPath})
     .then(function(r){
-      if(r.ok && r.data){
-        cache[picPath]=r.data;
-        showThumb(cid, r.data, caption, picPath, assetId||'');
+      var url = r.ok ? (r.url||'') : '';
+      if(url){
+        cache[picPath]=url;
+        showThumb(cid, url, caption, picPath, assetId||'');
       } else {
         var el=document.getElementById('il_'+cid);
         var aid=assetId||'';
@@ -553,19 +554,18 @@ function onFileSelected(evt){
     }).then(function(r){
       if(sav) sav.classList.remove('show');
       if(r.ok){
-        // Cache шинэчлэх
-        cache[r.newPath]=dataUrl;
-        // allGroups дахь picPath шинэчлэх
+        var newUrl = r.url || dataUrl; // Drive thumbnail эсвэл dataUrl
+        cache[r.newPath] = newUrl;
         allGroups.forEach(function(g){
           g.items.forEach(function(item){
-            if(item.assetId===assetId) item.picPath=r.newPath;
+            if(item.assetId===assetId){ item.picPath=r.newPath; }
           });
         });
         // Зургийг шинэчлэх
-        var wrap=document.querySelector('#sav_'+cid) && document.querySelector('#sav_'+cid).parentNode;
-        if(wrap){
-          var img=wrap.querySelector('.item-img');
-          if(img){ img.src=dataUrl; }
+        var savEl=document.getElementById('sav_'+cid);
+        if(savEl){
+          var imgEl=savEl.parentNode.querySelector('.item-img');
+          if(imgEl) imgEl.src=newUrl;
         }
       } else {
         alert('Алдаа: '+(r.error||'Хадгалах амжилтгүй'));
