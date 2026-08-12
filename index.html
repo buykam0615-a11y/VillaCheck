@@ -5,239 +5,279 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VillaCheck</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:      #0d1117;
-  --bg2:     #161b22;
-  --bg3:     #21262d;
-  --glass:   rgba(255,255,255,0.04);
-  --border:  rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --gold:    #F5A623;
-  --gold-d:  #C47D0E;
-  --gold-g:  linear-gradient(135deg,#F5A623,#ff6b35);
-  --text:    #e6edf3;
-  --text-m:  #8b949e;
-  --text-s:  #6e7681;
-  --success: #3fb950;
-  --danger:  #f85149;
-  --r:       12px;
+:root{
+  --bg:#F7F5F2;
+  --white:#FFFFFF;
+  --ink:#0F0F0F;
+  --ink2:#4A4A4A;
+  --ink3:#9A9A9A;
+  --gold:#C8973A;
+  --gold-l:#F5E9D4;
+  --gold-g:linear-gradient(135deg,#C8973A 0%,#E8B86D 100%);
+  --accent:#1A1A2E;
+  --border:#E8E4DE;
+  --r:16px;
+  --shadow:0 2px 16px rgba(15,15,15,.06);
+  --shadow-lg:0 8px 40px rgba(15,15,15,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 
 /* ── LOGIN ── */
 #loginWrap{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse at 30% 20%,rgba(245,166,35,.12) 0%,transparent 60%),
-             radial-gradient(ellipse at 70% 80%,rgba(255,107,53,.08) 0%,transparent 60%),
-             var(--bg);
+  min-height:100vh;display:flex;background:var(--white);
 }
-.login-box{
-  background:rgba(22,27,34,0.9);border:1px solid var(--border2);
-  border-radius:20px;padding:44px 40px;width:100%;max-width:400px;
-  backdrop-filter:blur(20px);box-shadow:0 24px 64px rgba(0,0,0,.5);
+.login-left{
+  flex:1;background:var(--accent);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:60px;position:relative;overflow:hidden;
 }
-.login-logo{text-align:center;margin-bottom:32px}
-.login-logo .icon{font-size:52px;filter:drop-shadow(0 4px 16px rgba(245,166,35,.4))}
-.login-logo h1{font-size:24px;font-weight:700;color:var(--gold);margin-top:10px;letter-spacing:-.3px}
-.login-logo p{font-size:13px;color:var(--text-m);margin-top:4px}
+.login-left::before{
+  content:'';position:absolute;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,151,58,.25) 0%,transparent 70%);
+  top:-100px;right:-100px;
+}
+.login-left::after{
+  content:'';position:absolute;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,151,58,.15) 0%,transparent 70%);
+  bottom:-50px;left:-50px;
+}
+.ll-content{position:relative;z-index:1;text-align:center;color:#fff}
+.ll-icon{font-size:64px;margin-bottom:24px;filter:drop-shadow(0 8px 24px rgba(200,151,58,.5))}
+.ll-title{font-size:36px;font-weight:800;letter-spacing:-1px;line-height:1.1}
+.ll-title span{
+  background:var(--gold-g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.ll-sub{font-size:15px;color:rgba(255,255,255,.5);margin-top:12px;line-height:1.6}
+.ll-badges{display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.ll-badge{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;padding:6px 16px;font-size:12px;color:rgba(255,255,255,.7);
+}
 
-.f{margin-bottom:16px}
-.f label{display:block;font-size:11px;font-weight:600;color:var(--text-m);margin-bottom:6px;letter-spacing:.6px;text-transform:uppercase}
-.f input{
-  width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:8px;font-size:14px;color:var(--text);outline:none;font-family:inherit;
+.login-right{
+  width:440px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:60px 52px;
+}
+.lr-head{margin-bottom:36px;width:100%}
+.lr-head h2{font-size:26px;font-weight:800;letter-spacing:-.5px;color:var(--ink)}
+.lr-head p{font-size:14px;color:var(--ink3);margin-top:6px}
+
+.lf{margin-bottom:18px}
+.lf label{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:8px;letter-spacing:.3px}
+.lf input{
+  width:100%;padding:14px 16px;background:var(--bg);border:1.5px solid var(--border);
+  border-radius:12px;font-size:14px;color:var(--ink);outline:none;font-family:inherit;
   transition:border-color .15s,box-shadow .15s;
 }
-.f input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,166,35,.15)}
-.f input::placeholder{color:var(--text-s)}
-.hint{font-size:11px;color:var(--text-s);margin-top:5px}
-.sep{border-top:1px solid var(--border);margin:16px 0}
+.lf input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(200,151,58,.1)}
+.lf input::placeholder{color:var(--ink3)}
 
 .btn-login{
-  width:100%;padding:12px;background:var(--gold-g);color:#000;border:none;border-radius:8px;
-  font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;
-  transition:opacity .15s,transform .1s;letter-spacing:-.1px;
+  width:100%;padding:15px;background:var(--accent);color:#fff;border:none;
+  border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;
+  margin-top:8px;transition:all .2s;letter-spacing:-.1px;display:flex;align-items:center;justify-content:center;gap:8px;
 }
-.btn-login:hover{opacity:.9;transform:translateY(-1px)}
-.btn-login:active{transform:translateY(0)}
+.btn-login:hover{background:#2a2a4e;transform:translateY(-1px);box-shadow:var(--shadow-lg)}
 .btn-login:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .lerr{
-  margin-top:14px;padding:10px 14px;background:rgba(248,81,73,.1);
-  border:1px solid rgba(248,81,73,.3);border-radius:8px;color:var(--danger);
-  font-size:13px;display:none;
+  margin-top:14px;padding:12px 16px;background:#fff5f5;border:1px solid #fecaca;
+  border-radius:10px;color:#dc2626;font-size:13px;display:none;
 }
-.sp{width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
+.sp{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+@media(max-width:768px){
+  .login-left{display:none}
+  .login-right{width:100%;padding:40px 28px}
+}
+
 /* ── APP ── */
-#app{display:none;min-height:100vh}
+#app{display:none;min-height:100vh;background:var(--bg)}
 
 header{
-  background:rgba(13,17,23,.95);border-bottom:1px solid var(--border);
-  padding:0 24px;height:60px;display:flex;align-items:center;gap:16px;
-  position:sticky;top:0;z-index:100;backdrop-filter:blur(16px);
+  background:rgba(247,245,242,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);padding:0 32px;height:64px;
+  display:flex;align-items:center;gap:20px;position:sticky;top:0;z-index:100;
 }
-.hlogo{
-  font-size:16px;font-weight:700;
-  background:var(--gold-g);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  display:flex;align-items:center;gap:8px;
-}
+.hlogo{display:flex;align-items:center;gap:10px}
+.hlogo-icon{width:36px;height:36px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.hlogo-text{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.3px}
 .hsp{flex:1}
-.huser{font-size:13px;color:var(--text-m);display:flex;align-items:center;gap:6px}
-.huser strong{color:var(--text)}
+.huser{
+  display:flex;align-items:center;gap:10px;padding:6px 14px;
+  background:var(--white);border:1px solid var(--border);border-radius:20px;font-size:13px;
+}
+.havatar{width:26px;height:26px;background:var(--gold-l);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
 .hbtn{
-  padding:6px 16px;border-radius:8px;border:1px solid rgba(248,81,73,.3);
-  background:rgba(248,81,73,.08);font-size:13px;font-weight:500;cursor:pointer;
-  color:var(--danger);font-family:inherit;transition:all .15s;
+  padding:8px 18px;border-radius:20px;border:1.5px solid var(--border);
+  background:var(--white);font-size:13px;font-weight:600;cursor:pointer;
+  color:var(--ink2);font-family:inherit;transition:all .15s;
 }
-.hbtn:hover{background:rgba(248,81,73,.15)}
+.hbtn:hover{border-color:var(--ink);color:var(--ink)}
 
-.main{max-width:1100px;margin:0 auto;padding:24px 20px}
+.main{max-width:1280px;margin:0 auto;padding:32px 32px}
 
-/* Villa selector card */
-.sel-card{
-  background:var(--glass);border:1px solid var(--border);border-radius:var(--r);
-  padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+/* Hero bar */
+.hero-bar{
+  background:var(--accent);border-radius:20px;padding:28px 36px;
+  margin-bottom:28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
 }
-.sel-card label{font-size:14px;font-weight:600;color:var(--text-m);white-space:nowrap}
-.vsel{
-  flex:1;min-width:200px;padding:10px 16px;background:var(--bg3);border:1px solid var(--border2);
-  border-radius:8px;font-size:15px;font-weight:600;color:var(--text);outline:none;
-  cursor:pointer;font-family:inherit;transition:border-color .15s;
+.hero-bar::before{
+  content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;
+  border-radius:50%;background:radial-gradient(circle,rgba(200,151,58,.2) 0%,transparent 70%);
 }
-.vsel:focus{border-color:var(--gold)}
-.vsel option{background:var(--bg2)}
+.hero-bar-left{flex:1;position:relative;z-index:1}
+.hero-bar-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.4px}
+.hero-bar-sub{font-size:13px;color:rgba(255,255,255,.5);margin-top:4px}
+.hero-controls{display:flex;align-items:center;gap:12px;position:relative;z-index:1;flex-wrap:wrap}
 
-.pill{display:none;font-size:12px;padding:4px 12px;border-radius:20px;font-weight:500}
-.pill.ok{display:inline-block;background:rgba(63,185,80,.12);color:var(--success);border:1px solid rgba(63,185,80,.2)}
-.pill.er{display:inline-block;background:rgba(248,81,73,.12);color:var(--danger);border:1px solid rgba(248,81,73,.2)}
-.pill.ld{display:inline-block;background:rgba(245,166,35,.12);color:var(--gold);border:1px solid rgba(245,166,35,.2)}
-
-.pbtn{
-  padding:9px 18px;border-radius:8px;border:1px solid var(--border2);
-  background:var(--bg3);font-size:13px;font-weight:500;cursor:pointer;color:var(--text);
-  font-family:inherit;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s;
+/* Villa dropdown custom */
+.villa-select-wrap{position:relative}
+.villa-select-wrap select{
+  appearance:none;padding:12px 44px 12px 18px;background:rgba(255,255,255,.1);
+  border:1.5px solid rgba(255,255,255,.2);border-radius:12px;
+  font-size:15px;font-weight:700;color:#fff;outline:none;cursor:pointer;
+  font-family:inherit;transition:all .15s;min-width:180px;
 }
-.pbtn:hover{background:var(--glass);border-color:var(--gold)}
-.pbtn:disabled{opacity:.4;cursor:not-allowed}
-
-/* Content card */
-.content-card{
-  background:var(--glass);border:1px solid var(--border);border-radius:var(--r);
-  padding:24px;
+.villa-select-wrap select:focus{border-color:var(--gold);background:rgba(255,255,255,.15)}
+.villa-select-wrap select option{background:var(--accent);color:#fff}
+.villa-select-wrap::after{
+  content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:rgba(255,255,255,.6);pointer-events:none;font-size:13px;
 }
-.ctop{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-.ctitle{font-size:20px;font-weight:700;letter-spacing:-.3px}
-.csub{font-size:13px;color:var(--text-m);margin-top:4px}
 
-/* Room tabs */
-.room-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
-.rtab{
-  padding:7px 16px;border-radius:20px;border:1px solid var(--border);
-  background:var(--bg3);font-size:13px;font-weight:500;cursor:pointer;color:var(--text-m);
-  font-family:inherit;transition:all .15s;white-space:nowrap;
+/* Room dropdown */
+.room-select-wrap{position:relative}
+.room-select-wrap select{
+  appearance:none;padding:12px 44px 12px 18px;background:var(--white);
+  border:1.5px solid var(--border);border-radius:12px;
+  font-size:14px;font-weight:600;color:var(--ink);outline:none;cursor:pointer;
+  font-family:inherit;transition:all .15s;min-width:200px;
 }
-.rtab:hover{border-color:var(--border2);color:var(--text)}
-.rtab.active{background:var(--gold-g);border-color:transparent;color:#000;font-weight:700}
-.rtab .rc{
-  display:inline-block;background:rgba(0,0,0,.2);color:inherit;
-  font-size:11px;padding:1px 6px;border-radius:10px;margin-left:5px;
+.room-select-wrap select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,58,.1)}
+.room-select-wrap::after{
+  content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--ink3);pointer-events:none;font-size:13px;
 }
-.rtab.active .rc{background:rgba(0,0,0,.25)}
 
-/* Item grid */
-.item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.pill{display:none;font-size:12px;padding:5px 14px;border-radius:20px;font-weight:600}
+.pill.ok{display:inline-flex;align-items:center;gap:5px;background:rgba(63,185,80,.15);color:#3fb950;border:1px solid rgba(63,185,80,.2)}
+.pill.er{display:inline-flex;background:rgba(220,38,38,.15);color:#dc2626;border:1px solid rgba(220,38,38,.2)}
+.pill.ld{display:inline-flex;align-items:center;gap:6px;background:rgba(200,151,58,.15);color:var(--gold);border:1px solid rgba(200,151,58,.2)}
+
+.act-btn{
+  padding:12px 20px;border-radius:12px;border:none;font-size:13px;font-weight:600;
+  cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:7px;
+  transition:all .15s;white-space:nowrap;
+}
+.act-btn-ghost{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1.5px solid rgba(255,255,255,.15)}
+.act-btn-ghost:hover{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.3)}
+.act-btn-ghost:disabled{opacity:.3;cursor:not-allowed}
+.act-btn-gold{background:var(--gold-g);color:#fff}
+.act-btn-gold:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,151,58,.4)}
+.act-btn-gold:disabled{opacity:.3;cursor:not-allowed;transform:none}
+
+/* Content area */
+.content-wrap{
+  background:var(--white);border-radius:20px;border:1px solid var(--border);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.content-head{
+  padding:24px 32px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:16px;
+}
+.ch-title{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.ch-sub{font-size:13px;color:var(--ink3);margin-top:2px}
+.ch-badge{
+  background:var(--gold-l);color:var(--gold);border:1px solid rgba(200,151,58,.2);
+  font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-left:auto;
+}
+
+/* Room dropdown bar */
+.room-bar{padding:16px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;background:#FAFAF9}
+
+/* Grid */
+.item-grid{
+  padding:28px 32px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;
+}
+
+/* Item card */
 .item-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  overflow:hidden;transition:border-color .15s,transform .15s,box-shadow .15s;cursor:default;
+  background:var(--white);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;transition:all .2s;cursor:default;
 }
-.item-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.item-img-wrap{width:100%;height:150px;overflow:hidden;position:relative;background:var(--bg3)}
-.item-img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;transition:transform .2s}
-.item-img:hover{transform:scale(1.05)}
-.item-ph{width:100%;height:150px;display:flex;align-items:center;justify-content:center;background:var(--bg3);font-size:36px;color:var(--text-s);cursor:pointer;transition:background .15s}
-.item-ph:hover{background:var(--bg2)}
-/* Зураг солих overlay */
-.img-overlay{
-  position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;
-  align-items:flex-end;justify-content:center;padding-bottom:8px;
-  transition:background .2s;
+.item-card:hover{border-color:var(--gold);box-shadow:0 8px 32px rgba(200,151,58,.12);transform:translateY(-3px)}
+
+.item-img-wrap{width:100%;height:160px;overflow:hidden;position:relative;background:var(--bg)}
+.item-img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in;transition:transform .3s}
+.item-img:hover{transform:scale(1.06)}
+.item-ph{
+  width:100%;height:160px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;background:var(--bg);font-size:32px;color:var(--ink3);
+  cursor:pointer;gap:6px;transition:background .2s;
 }
-.item-img-wrap:hover .img-overlay{background:rgba(0,0,0,.5)}
-.img-overlay-btns{display:flex;gap:6px;opacity:0;transition:opacity .2s}
-.item-img-wrap:hover .img-overlay-btns{opacity:1}
+.item-ph:hover{background:var(--gold-l)}
+.item-ph span{font-size:11px;font-weight:600;color:var(--ink3)}
+.item-loading{width:100%;height:160px;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.img-sp{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+
+/* Overlay */
+.img-overlay{position:absolute;inset:0;background:transparent;display:flex;align-items:flex-end;justify-content:center;padding:10px;transition:background .2s;gap:6px}
+.item-img-wrap:hover .img-overlay{background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 60%)}
 .img-ov-btn{
-  padding:5px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.3);
-  background:rgba(0,0,0,.6);color:#fff;font-size:11px;font-weight:600;
-  cursor:pointer;backdrop-filter:blur(4px);font-family:inherit;transition:all .15s;
+  padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:600;cursor:pointer;
+  font-family:inherit;opacity:0;transition:all .15s;backdrop-filter:blur(8px);
 }
-.img-ov-btn:hover{background:rgba(245,166,35,.8);border-color:var(--gold)}
-/* Upload saving overlay */
-.img-saving{
-  position:absolute;inset:0;background:rgba(13,17,23,.85);
-  display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;
-}
+.item-img-wrap:hover .img-ov-btn{opacity:1}
+.img-ov-btn:hover{background:var(--gold);border-color:var(--gold)}
+.img-saving{position:absolute;inset:0;background:rgba(247,245,242,.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;backdrop-filter:blur(4px)}
 .img-saving.show{display:flex}
-.img-saving span{font-size:12px;color:var(--gold)}
-.item-loading{
-  width:100%;height:150px;display:flex;align-items:center;justify-content:center;
-  background:var(--bg3);
-}
-.img-sp{
-  width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--gold);
-  border-radius:50%;animation:spin .8s linear infinite;
-}
-.item-body{padding:12px 14px}
-.item-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:6px}
-.item-qty{
-  font-size:11px;color:var(--text-s);margin-bottom:10px;display:flex;align-items:center;gap:4px;
-}
+.img-saving p{font-size:12px;font-weight:600;color:var(--gold)}
+
+.item-body{padding:14px 16px}
+.item-name{font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:8px}
+.item-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .qty-badge{
-  background:rgba(245,166,35,.15);color:var(--gold);border:1px solid rgba(245,166,35,.2);
-  font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px;
+  background:var(--gold-l);color:var(--gold);border:1px solid rgba(200,151,58,.2);
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;
 }
 .item-note{
-  width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);
-  font-size:12px;color:var(--text-m);padding:4px 2px;outline:none;font-family:inherit;
-  transition:border-color .15s;
+  width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;
+  font-size:12px;color:var(--ink);padding:8px 10px;outline:none;font-family:inherit;
+  transition:border-color .15s;resize:none;
 }
-.item-note:focus{border-bottom-color:var(--gold);color:var(--text)}
-.item-note::placeholder{color:var(--text-s)}
+.item-note:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,58,.08)}
+.item-note::placeholder{color:var(--ink3)}
 
-/* Empty / loading */
-.emp{text-align:center;padding:60px 20px;color:var(--text-m)}
-.emp .ei{font-size:44px;margin-bottom:14px;opacity:.6}
-.emp p{font-size:14px}
+/* Empty */
+.emp{text-align:center;padding:80px 20px;color:var(--ink3)}
+.emp .ei{font-size:48px;margin-bottom:16px;opacity:.4}
+.emp p{font-size:14px;font-weight:500}
 
 /* Lightbox */
-#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:14px;backdrop-filter:blur(8px)}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:16px}
 #lb.open{display:flex}
-#lb img{max-width:90vw;max-height:82vh;border-radius:10px;box-shadow:0 24px 80px rgba(0,0,0,.7)}
-#lb .lbc{position:absolute;top:18px;right:22px;color:rgba(255,255,255,.7);font-size:30px;cursor:pointer;line-height:1;transition:color .1s}
-#lb .lbc:hover{color:#fff}
-#lb .lbcap{color:var(--text-m);font-size:13px}
-
-/* Room section (print only uses) */
-.room-section{display:none}
-.room-section.active-section{display:block}
+#lb img{max-width:92vw;max-height:84vh;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,.8);object-fit:contain}
+#lb .lbc{position:absolute;top:20px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+#lb .lbc:hover{background:rgba(255,255,255,.2)}
+#lb .lbcap{color:rgba(255,255,255,.5);font-size:13px;font-weight:500}
 
 @media print{
-  body,#app{background:#fff!important;color:#000!important}
-  #loginWrap,header,.sel-card,.room-tabs{display:none!important}
-  .content-card{border:none!important;background:#fff!important;padding:0!important}
-  .room-section{display:block!important}
-  .item-grid{grid-template-columns:repeat(3,1fr);gap:8px}
-  .item-card{background:#fff!important;border:1px solid #ddd!important;break-inside:avoid}
-  .item-img-wrap,.item-ph,.item-loading{height:110px!important}
-  .item-body{padding:8px 10px}
-  .item-name{font-size:11pt;color:#000}
-  .item-qty{color:#555}
+  body{background:#fff!important}
+  #loginWrap,header,.hero-bar,.room-bar{display:none!important}
+  .content-wrap{border:none!important;box-shadow:none!important}
+  .item-grid{grid-template-columns:repeat(3,1fr)!important;gap:12px!important;padding:16px!important}
+  .item-card{border:1px solid #ddd!important;break-inside:avoid}
+  .item-img-wrap,.item-ph,.item-loading{height:120px!important}
+  .item-body{padding:10px 12px}
+  .item-name{font-size:10pt}
   .qty-badge{background:#f5f5f5;color:#333;border-color:#ddd}
-  .ctitle{color:#000;font-size:16pt}
-  .csub{color:#555}
+  .content-head{padding:16px 24px}
   #lb{display:none!important}
 }
 </style>
@@ -246,21 +286,34 @@ header{
 
 <!-- LOGIN -->
 <div id="loginWrap">
-  <div class="login-box">
-    <div class="login-logo">
-      <div class="icon">🏡</div>
-      <h1>VillaCheck</h1>
-      <p>Хяналтын систем</p>
+  <div class="login-left">
+    <div class="ll-content">
+      <div class="ll-icon">🏡</div>
+      <div class="ll-title">Villa<br><span>Check</span></div>
+      <div class="ll-sub">Вилла бүрийн тавилга, тоног<br>төхөөрөмжийн хяналтын систем</div>
+      <div class="ll-badges">
+        <span class="ll-badge">📋 Тавилга бүртгэл</span>
+        <span class="ll-badge">📷 Зургийн хяналт</span>
+        <span class="ll-badge">📊 Excel тайлан</span>
+      </div>
     </div>
-    <div class="f">
-      <label>Хэрэглэгчийн нэр</label>
+  </div>
+  <div class="login-right">
+    <div class="lr-head">
+      <h2>Нэвтрэх</h2>
+      <p>Хяналтын системд тавтай морил</p>
+    </div>
+    <div class="lf">
+      <label>ХЭРЭГЛЭГЧИЙН НЭР</label>
       <input type="text" id="uname" placeholder="username" autocomplete="username"/>
     </div>
-    <div class="f">
-      <label>Нүүц үг</label>
+    <div class="lf">
+      <label>НҮҮЦ ҮГ</label>
       <input type="password" id="upass" placeholder="••••••••" autocomplete="current-password"/>
     </div>
-    <button class="btn-login" id="lbtn" onclick="doLogin()">Нэвтрэх</button>
+    <button class="btn-login" id="lbtn" onclick="doLogin()">
+      <span id="lbtxt">Нэвтрэх →</span>
+    </button>
     <div class="lerr" id="lerr"></div>
   </div>
 </div>
@@ -268,33 +321,57 @@ header{
 <!-- APP -->
 <div id="app">
   <header>
-    <div class="hlogo">🏡 VillaCheck</div>
+    <div class="hlogo">
+      <div class="hlogo-icon">🏡</div>
+      <div class="hlogo-text">VillaCheck</div>
+    </div>
     <div class="hsp"></div>
-    <div class="huser">👤 <strong id="husr"></strong></div>
+    <div class="huser">
+      <div class="havatar">👤</div>
+      <strong id="husr"></strong>
+    </div>
     <button class="hbtn" onclick="doLogout()">Гарах</button>
   </header>
 
   <div class="main">
-    <!-- Villa сонгох -->
-    <div class="sel-card">
-      <label>🏡 Villa</label>
-      <select class="vsel" id="vsel" onchange="loadCP()">
-        <option value="">— сонгоно уу —</option>
-      </select>
-      <span class="pill" id="st"></span>
-      <button class="pbtn" id="xlbtn" onclick="exportExcel()" disabled>📊 Excel</button>
-      <button class="pbtn" id="pbtn" onclick="doPrint()" disabled>🖨 Хэвлэх</button>
+    <!-- Hero bar -->
+    <div class="hero-bar">
+      <div class="hero-bar-left">
+        <div class="hero-bar-title" id="heroTitle">Villa сонгоно уу</div>
+        <div class="hero-bar-sub" id="heroSub">Хяналт хийх villa-г доороос сонгоно уу</div>
+      </div>
+      <div class="hero-controls">
+        <div class="villa-select-wrap">
+          <select id="vsel" onchange="loadCP()">
+            <option value="">— Villa сонгох —</option>
+          </select>
+        </div>
+        <span class="pill" id="st"></span>
+        <button class="act-btn act-btn-ghost" id="xlbtn" onclick="exportExcel()" disabled>📊 Excel</button>
+        <button class="act-btn act-btn-gold" id="pbtn" onclick="doPrint()" disabled>🖨 Хэвлэх</button>
+      </div>
     </div>
 
-    <!-- Хяналт -->
-    <div class="content-card" id="tcard" style="display:none">
-      <div class="ctop">
-        <div class="ctitle" id="ttitle"></div>
-        <div class="csub" id="tsub"></div>
+    <!-- Content -->
+    <div class="content-wrap" id="tcard" style="display:none">
+      <div class="content-head">
+        <div>
+          <div class="ch-title" id="ttitle"></div>
+          <div class="ch-sub" id="tsub"></div>
+        </div>
+        <div class="ch-badge" id="tbadge"></div>
       </div>
-      <!-- Room tabs -->
-      <div class="room-tabs" id="roomTabs"></div>
-      <!-- Grid -->
+
+      <!-- Room dropdown -->
+      <div class="room-bar">
+        <div class="room-select-wrap">
+          <select id="roomSel" onchange="showRoom(this.value)">
+            <option value="">— Өрөө сонгох —</option>
+          </select>
+        </div>
+        <span id="roomBadge" style="font-size:13px;color:var(--ink3)"></span>
+      </div>
+
       <div id="tc">
         <div class="emp"><div class="ei">🏠</div><p>Villa сонгоно уу</p></div>
       </div>
@@ -304,12 +381,12 @@ header{
 
 <!-- Lightbox -->
 <div id="lb" onclick="closeLb()">
-  <span class="lbc">✕</span>
+  <div class="lbc" onclick="closeLb()">✕</div>
   <img id="lbimg" src="" alt="">
   <div class="lbcap" id="lbcap"></div>
 </div>
 
-<!-- Hidden file input зураг upload-д -->
+<!-- Hidden file input -->
 <input type="file" id="imgFileInput" accept="image/*" style="display:none" onchange="onFileSelected(event)"/>
 
 <script>
@@ -318,48 +395,48 @@ var TOKEN='', USER='';
 var cache={};
 var allGroups=[];
 var activeRoom='';
+var uploadTarget={cid:'',assetId:'',oldPath:''};
 
-window.onload = function() {
-  TOKEN = localStorage.getItem('vc_tok') || '';
-  USER  = localStorage.getItem('vc_usr') || '';
-  if (TOKEN && USER) { showApp(); return; }
-  document.getElementById('loginWrap').style.display = 'flex';
+window.onload=function(){
+  TOKEN=localStorage.getItem('vc_tok')||'';
+  USER=localStorage.getItem('vc_usr')||'';
+  if(TOKEN&&USER){showApp();return;}
+  document.getElementById('loginWrap').style.display='flex';
 };
 
-function doLogin() {
+function doLogin(){
   var u=document.getElementById('uname').value.trim();
   var p=document.getElementById('upass').value.trim();
   var btn=document.getElementById('lbtn');
+  var txt=document.getElementById('lbtxt');
   document.getElementById('lerr').style.display='none';
-  if (!u||!p) { showErr('Нэр болон нүүц үгийг оруулна уу'); return; }
+  if(!u||!p){showErr('Нэр болон нүүц үгийг оруулна уу');return;}
   btn.disabled=true;
-  btn.innerHTML='<span class="sp"></span>Нэвтэрч байна…';
+  txt.innerHTML='<span class="sp"></span>';
   gasPost({action:'login',username:u,password:p})
     .then(function(r){
       if(r.ok){
-        TOKEN=r.token; USER=r.username;
+        TOKEN=r.token;USER=r.username;
         localStorage.setItem('vc_tok',TOKEN);
         localStorage.setItem('vc_usr',USER);
         showApp();
-      } else showErr(r.error||'Нэвтрэх амжилтгүй');
+      }else showErr(r.error||'Нэвтрэх амжилтгүй');
     })
-    .catch(function(e){ showErr('Холбогдсонгүй: '+e.message); })
-    .finally(function(){ btn.disabled=false; btn.textContent='Нэвтрэх'; });
+    .catch(function(e){showErr('Холбогдсонгүй: '+e.message);})
+    .finally(function(){btn.disabled=false;txt.textContent='Нэвтрэх →';});
 }
-function showErr(m){ var e=document.getElementById('lerr'); e.textContent=m; e.style.display='block'; }
+function showErr(m){var e=document.getElementById('lerr');e.textContent=m;e.style.display='block';}
 
 function showApp(){
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('husr').textContent=USER;
-  document.getElementById('tcard').style.display='';
   loadBuildings();
 }
 function doLogout(){
-  TOKEN=''; USER='';
+  TOKEN='';USER='';
   localStorage.removeItem('vc_tok');
   localStorage.removeItem('vc_usr');
-  localStorage.removeItem('vc_gas');
   location.reload();
 }
 
@@ -369,32 +446,33 @@ function loadBuildings(){
     .then(function(r){
       if(!r.ok){setSt(r.error,'er');return;}
       var s=document.getElementById('vsel');
-      s.innerHTML='<option value="">— сонгоно уу —</option>';
+      s.innerHTML='<option value="">— Villa сонгох —</option>';
       (r.data||[]).forEach(function(n){
-        var o=document.createElement('option'); o.value=o.textContent=n; s.appendChild(o);
+        var o=document.createElement('option');o.value=o.textContent=n;s.appendChild(o);
       });
       setSt(r.data.length+' villa','ok');
       setTimeout(function(){setSt('','');},2500);
     })
-    .catch(function(e){setSt('Алдаа: '+e.message,'er');});
+    .catch(function(e){setSt('Алдаа','er');});
 }
 
 function loadCP(){
   var v=document.getElementById('vsel').value;
-  if(!v) return;
-  var tc=document.getElementById('tc');
-  document.getElementById('roomTabs').innerHTML='';
-  tc.innerHTML='<div class="emp"><div class="img-sp" style="width:36px;height:36px;margin:0 auto 16px"></div><p>Уншиж байна…</p></div>';
+  if(!v)return;
+  allGroups=[];
+  document.getElementById('tcard').style.display='';
+  document.getElementById('roomSel').innerHTML='<option value="">— Өрөө сонгох —</option>';
+  document.getElementById('roomBadge').textContent='';
+  document.getElementById('tc').innerHTML='<div class="emp"><div style="width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p>Уншиж байна…</p></div>';
   setSt('Уншиж байна…','ld');
   document.getElementById('pbtn').disabled=true;
   document.getElementById('xlbtn').disabled=true;
-  allGroups=[];
 
   gasPost({action:'getCheckpoints',token:TOKEN,villa:v})
     .then(function(r){
       if(!r.ok){
-        tc.innerHTML='<div class="emp"><div class="ei">⚠️</div><p>'+esc(r.error)+'</p></div>';
-        setSt(r.error,'er'); return;
+        document.getElementById('tc').innerHTML='<div class="emp"><div class="ei">⚠️</div><p>'+esc(r.error)+'</p></div>';
+        setSt(r.error,'er');return;
       }
       allGroups=r.data||[];
       var total=allGroups.reduce(function(s,g){return s+g.items.length;},0);
@@ -402,42 +480,40 @@ function loadCP(){
       document.getElementById('pbtn').disabled=false;
       document.getElementById('xlbtn').disabled=false;
       var now=new Date();
-      var ds=now.getFullYear()+'/'+pad(now.getMonth()+1)+'/'+pad(now.getDate());
-      document.getElementById('ttitle').textContent='🏡 '+v;
-      document.getElementById('tsub').textContent=total+' тавилга · '+ds;
-      buildTabs();
-      if(allGroups.length>0) showRoom(allGroups[0].room);
+      var ds=now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');
+      document.getElementById('heroTitle').textContent='🏡 '+v;
+      document.getElementById('heroSub').textContent=total+' тавилга хяналттай · '+ds;
+      document.getElementById('ttitle').textContent=v;
+      document.getElementById('tsub').textContent=ds+' · '+total+' тавилга';
+      document.getElementById('tbadge').textContent=allGroups.length+' өрөө';
+      buildRoomDropdown();
+      if(allGroups.length>0)showRoom(allGroups[0].room);
     })
     .catch(function(e){
-      tc.innerHTML='<div class="emp"><div class="ei">❌</div><p>'+esc(e.message)+'</p></div>';
+      document.getElementById('tc').innerHTML='<div class="emp"><div class="ei">❌</div><p>'+esc(e.message)+'</p></div>';
       setSt('Алдаа','er');
     });
 }
 
-function buildTabs(){
-  var tabs=document.getElementById('roomTabs');
-  tabs.innerHTML='';
+function buildRoomDropdown(){
+  var sel=document.getElementById('roomSel');
+  sel.innerHTML='';
   allGroups.forEach(function(g){
-    var btn=document.createElement('button');
-    btn.className='rtab';
-    btn.innerHTML=esc(g.room)+' <span class="rc">'+g.items.length+'</span>';
-    btn.onclick=function(){ showRoom(g.room); };
-    btn.dataset.room=g.room;
-    tabs.appendChild(btn);
+    var o=document.createElement('option');
+    o.value=g.room;
+    o.textContent=g.room+' ('+g.items.length+')';
+    sel.appendChild(o);
   });
 }
 
-// Зураг upload хийх үед ямар card-д хамаарахыг хадгалах
-var uploadTarget = { cid:'', assetId:'', oldPath:'' };
-
 function showRoom(roomName){
+  if(!roomName&&allGroups.length>0)roomName=allGroups[0].room;
   activeRoom=roomName;
-  document.querySelectorAll('.rtab').forEach(function(b){
-    b.classList.toggle('active', b.dataset.room===roomName);
-  });
+  document.getElementById('roomSel').value=roomName;
   var group=allGroups.find(function(g){return g.room===roomName;});
-  if(!group) return;
-  var tc=document.getElementById('tc');
+  if(!group){document.getElementById('tc').innerHTML='<div class="emp"><div class="ei">🔍</div><p>Өрөө олдсонгүй</p></div>';return;}
+  document.getElementById('roomBadge').textContent=group.items.length+' тавилга';
+
   var html='<div class="item-grid">';
   group.items.forEach(function(item,idx){
     var cid='c_'+idx;
@@ -446,138 +522,108 @@ function showRoom(roomName){
     html+='<div class="item-card">';
     if(item.picPath){
       html+='<div class="item-loading" id="il_'+cid+'"><div class="img-sp"></div></div>';
-    } else {
-      // Зураг байхгүй — upload товч харуулна
-      html+='<div class="item-ph" onclick="triggerUpload(\''+cid+'\',\''+aid+'\',\'\')">📷<div style="font-size:11px;margin-top:6px;color:var(--text-s)">Зураг нэмэх</div></div>';
+    }else{
+      html+='<div class="item-ph" onclick="triggerUpload(\''+cid+'\',\''+aid+'\',\'\')"><span style="font-size:36px">📷</span><span>Зураг нэмэх</span></div>';
     }
     html+='<div class="item-body">';
     html+='<div class="item-name">'+esc(item.furniture)+'</div>';
-    html+='<div class="item-qty">Ширхэг: <span class="qty-badge">'+esc(item.qty||'—')+'</span></div>';
-    html+='<input class="item-note" type="text" placeholder="Тэмдэглэл…" value="'+esc(item.comment||'')+'"/>';
+    html+='<div class="item-meta"><span class="qty-badge">× '+esc(item.qty||'—')+'</span></div>';
+    html+='<textarea class="item-note" rows="1" placeholder="Тэмдэглэл…">'+esc(item.comment||'')+'</textarea>';
     html+='</div></div>';
   });
   html+='</div>';
-  tc.innerHTML=html;
+  document.getElementById('tc').innerHTML=html;
+
   group.items.forEach(function(item,idx){
-    if(!item.picPath) return;
-    var cid='c_'+idx;
-    loadImg(item.picPath, cid, item.furniture, item.assetId);
+    if(!item.picPath)return;
+    loadImg(item.picPath,'c_'+idx,item.furniture,item.assetId);
   });
 }
 
-function loadImg(picPath, cid, caption, assetId){
-  if(cache[picPath]){ showThumb(cid, cache[picPath], caption, picPath, assetId||''); return; }
-  gasPost({action:'getImageUrl', token:TOKEN, picturePath:picPath})
+// ── IMAGE LOAD ──
+function loadImg(picPath,cid,caption,assetId){
+  if(cache[picPath]){showThumb(cid,cache[picPath],caption,picPath,assetId||'');return;}
+  gasPost({action:'getImageUrl',token:TOKEN,picturePath:picPath})
     .then(function(r){
-      var url = r.ok ? (r.url||'') : '';
+      var url=r.ok?(r.url||''):'';
       if(url){
         cache[picPath]=url;
-        showThumb(cid, url, caption, picPath, assetId||'');
-      } else {
+        showThumb(cid,url,caption,picPath,assetId||'');
+      }else{
         var el=document.getElementById('il_'+cid);
         var aid=assetId||'';
-        if(el) el.outerHTML='<div class="item-ph" onclick="triggerUpload(\''+cid+'\',\''+aid+'\',\'\')">📷<div style="font-size:11px;margin-top:6px;color:var(--text-s)">Зураг нэмэх</div></div>';
+        if(el)el.outerHTML='<div class="item-ph" onclick="triggerUpload(\''+cid+'\',\''+aid+'\',\'\')"><span style="font-size:36px">📷</span><span>Зураг нэмэх</span></div>';
       }
     })
     .catch(function(){
       var el=document.getElementById('il_'+cid);
       var aid=assetId||'';
-      if(el) el.outerHTML='<div class="item-ph" onclick="triggerUpload(\''+cid+'\',\''+aid+'\',\'\')">📷<div style="font-size:11px;margin-top:6px;color:var(--text-s)">Зураг нэмэх</div></div>';
+      if(el)el.outerHTML='<div class="item-ph" onclick="triggerUpload(\''+cid+'\',\''+aid+'\',\'\')"><span style="font-size:36px">📷</span><span>Зураг нэмэх</span></div>';
     });
 }
 
-function showThumb(cid, src, caption, picPath, assetId){
+function showThumb(cid,src,caption,picPath,assetId){
   var el=document.getElementById('il_'+cid);
-  if(!el) return;
+  if(!el)return;
   var aid=assetId||'';
   var pp=picPath||'';
   var wrap=document.createElement('div');
   wrap.className='item-img-wrap';
-  // Зураг
   var img=document.createElement('img');
-  img.className='item-img'; img.src=src; img.alt=caption||'';
-  img.onclick=function(e){ e.stopPropagation(); openLb(src,caption); };
-  // Overlay товчнууд
+  img.className='item-img';
+  // Drive thumbnail → full size for lightbox
+  var fullSrc=src.replace('sz=w400','sz=w1200');
+  img.src=src;img.alt=caption||'';
+  img.onclick=function(e){e.stopPropagation();openLb(fullSrc,caption);};
   var overlay=document.createElement('div');
   overlay.className='img-overlay';
-  var btns=document.createElement('div');
-  btns.className='img-overlay-btns';
-  // Томруулах
   var bZoom=document.createElement('button');
-  bZoom.className='img-ov-btn'; bZoom.textContent='🔍 Томруулах';
-  bZoom.onclick=function(e){ e.stopPropagation(); openLb(src,caption); };
-  // Солих
+  bZoom.className='img-ov-btn';bZoom.textContent='🔍 Томруулах';
+  bZoom.onclick=function(e){e.stopPropagation();openLb(fullSrc,caption);};
   var bChange=document.createElement('button');
-  bChange.className='img-ov-btn'; bChange.textContent='✏️ Солих';
-  bChange.onclick=function(e){ e.stopPropagation(); triggerUpload(cid, aid, pp); };
-  btns.appendChild(bZoom);
-  btns.appendChild(bChange);
-  overlay.appendChild(btns);
-  // Saving overlay
+  bChange.className='img-ov-btn';bChange.textContent='✏️ Солих';
+  bChange.onclick=function(e){e.stopPropagation();triggerUpload(cid,aid,pp);};
+  overlay.appendChild(bZoom);overlay.appendChild(bChange);
   var saving=document.createElement('div');
-  saving.className='img-saving'; saving.id='sav_'+cid;
-  saving.innerHTML='<div class="img-sp" style="width:28px;height:28px"></div><span>Хадгалж байна…</span>';
-  wrap.appendChild(img);
-  wrap.appendChild(overlay);
-  wrap.appendChild(saving);
-  el.parentNode.replaceChild(wrap, el);
+  saving.className='img-saving';saving.id='sav_'+cid;
+  saving.innerHTML='<div class="img-sp" style="width:28px;height:28px"></div><p>Хадгалж байна…</p>';
+  wrap.appendChild(img);wrap.appendChild(overlay);wrap.appendChild(saving);
+  el.parentNode.replaceChild(wrap,el);
 }
 
-// Upload trigger
-function triggerUpload(cid, assetId, oldPath){
-  uploadTarget = { cid:cid, assetId:assetId, oldPath:oldPath };
+// ── UPLOAD ──
+function triggerUpload(cid,assetId,oldPath){
+  uploadTarget={cid:cid,assetId:assetId,oldPath:oldPath};
   document.getElementById('imgFileInput').value='';
   document.getElementById('imgFileInput').click();
 }
-
-// Файл сонгосон үед
 function onFileSelected(evt){
-  var file=evt.target.files[0];
-  if(!file) return;
-  var cid=uploadTarget.cid;
-  var assetId=uploadTarget.assetId;
-  var oldPath=uploadTarget.oldPath;
-  // Saving overlay харуулах
+  var file=evt.target.files[0];if(!file)return;
+  var cid=uploadTarget.cid,assetId=uploadTarget.assetId,oldPath=uploadTarget.oldPath;
   var sav=document.getElementById('sav_'+cid);
-  if(sav) sav.classList.add('show');
-  // FileReader → base64
+  if(sav)sav.classList.add('show');
   var reader=new FileReader();
   reader.onload=function(e){
     var dataUrl=e.target.result;
     var ext=file.name.split('.').pop()||'jpg';
     var fileName=(assetId||Date.now())+'_'+Date.now()+'.'+ext;
-    // Drive-д хадгалах
-    gasPost({
-      action:'saveImage', token:TOKEN,
-      assetId:assetId, picPath:oldPath,
-      imageData:dataUrl, fileName:fileName
-    }).then(function(r){
-      if(sav) sav.classList.remove('show');
-      if(r.ok){
-        var newUrl = r.url || dataUrl; // Drive thumbnail эсвэл dataUrl
-        cache[r.newPath] = newUrl;
-        allGroups.forEach(function(g){
-          g.items.forEach(function(item){
-            if(item.assetId===assetId){ item.picPath=r.newPath; }
-          });
-        });
-        // Зургийг шинэчлэх
-        var savEl=document.getElementById('sav_'+cid);
-        if(savEl){
-          var imgEl=savEl.parentNode.querySelector('.item-img');
-          if(imgEl) imgEl.src=newUrl;
-        }
-      } else {
-        alert('Алдаа: '+(r.error||'Хадгалах амжилтгүй'));
-      }
-    }).catch(function(e){
-      if(sav) sav.classList.remove('show');
-      alert('Алдаа: '+e.message);
-    });
+    gasPost({action:'saveImage',token:TOKEN,assetId:assetId,picPath:oldPath,imageData:dataUrl,fileName:fileName})
+      .then(function(r){
+        if(sav)sav.classList.remove('show');
+        if(r.ok){
+          var newUrl=r.url||dataUrl;
+          cache[r.newPath]=newUrl;
+          allGroups.forEach(function(g){g.items.forEach(function(item){if(item.assetId===assetId)item.picPath=r.newPath;});});
+          var savEl=document.getElementById('sav_'+cid);
+          if(savEl){var imgEl=savEl.parentNode.querySelector('.item-img');if(imgEl)imgEl.src=newUrl;}
+        }else alert('Алдаа: '+(r.error||'Хадгалах амжилтгүй'));
+      })
+      .catch(function(e){if(sav)sav.classList.remove('show');alert('Алдаа: '+e.message);});
   };
   reader.readAsDataURL(file);
 }
 
+// ── LIGHTBOX ──
 function openLb(src,cap){
   document.getElementById('lbimg').src=src;
   document.getElementById('lbcap').textContent=cap||'';
@@ -589,22 +635,46 @@ function closeLb(){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb();});
 
+// ── EXCEL CSV ──
+function exportExcel(){
+  var villa=document.getElementById('vsel').value||'Villa';
+  var now=new Date();
+  var ds=now.getFullYear()+'-'+(now.getMonth()+1).toString().padStart(2,'0')+'-'+now.getDate().toString().padStart(2,'0');
+  var rows=[['Villa','Өрөө','Тавилга','Ширхэг','Тэмдэглэл','Зурагны зам']];
+  allGroups.forEach(function(g){
+    g.items.forEach(function(item){
+      rows.push([villa,g.room,item.furniture||'',item.qty||'',item.comment||'',item.picPath||'']);
+    });
+  });
+  var csv='\uFEFF';
+  rows.forEach(function(r){
+    csv+=r.map(function(c){return '"'+(c||'').toString().replace(/"/g,'""')+'"';}).join(',')+'\r\n';
+  });
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download=villa+'_'+ds+'.csv';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// ── PRINT ──
 function doPrint(){
-  // Print үед бүх өрөөг харуулах
   var tc=document.getElementById('tc');
   var orig=tc.innerHTML;
   var all='';
   allGroups.forEach(function(g){
-    all+='<div style="margin-bottom:28px"><div style="font-size:14pt;font-weight:700;border-bottom:2px solid #F5A623;padding-bottom:6px;margin-bottom:12px;color:#C47D0E">'+esc(g.room)+'</div>';
+    all+='<div style="margin-bottom:32px;break-inside:avoid">';
+    all+='<div style="font-size:13pt;font-weight:700;border-bottom:2px solid #C8973A;padding-bottom:8px;margin-bottom:14px;color:#1A1A2E">'+esc(g.room)+'</div>';
     all+='<div class="item-grid">';
-    g.items.forEach(function(item,idx){
+    g.items.forEach(function(item){
       var src=cache[item.picPath]||'';
       all+='<div class="item-card">';
-      if(src) all+='<div class="item-img-wrap"><img class="item-img" src="'+src+'" alt=""/></div>';
-      else all+='<div class="item-ph">🪑</div>';
+      if(src)all+='<div class="item-img-wrap"><img class="item-img" src="'+src+'" alt="" style="width:100%;height:120px;object-fit:cover"/></div>';
+      else all+='<div class="item-ph" style="height:120px">📷<span>Зураг байхгүй</span></div>';
       all+='<div class="item-body"><div class="item-name">'+esc(item.furniture)+'</div>';
-      all+='<div class="item-qty">Ширхэг: <span class="qty-badge">'+esc(item.qty||'—')+'</span></div>';
-      all+='<input class="item-note" type="text" value="'+esc(item.comment||'')+'" placeholder="Тэмдэглэл…"/>';
+      all+='<div class="item-meta"><span class="qty-badge">× '+esc(item.qty||'—')+'</span></div>';
+      all+='<div style="font-size:11px;color:#9A9A9A;border-top:1px solid #E8E4DE;padding-top:6px;margin-top:6px">'+esc(item.comment||'')+'</div>';
       all+='</div></div>';
     });
     all+='</div></div>';
@@ -615,68 +685,14 @@ function doPrint(){
   showRoom(activeRoom);
 }
 
-// ── EXCEL EXPORT ──
-function exportExcel(){
-  var villa=document.getElementById('vsel').value||'Villa';
-  var now=new Date();
-  var ds=now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');
-
-  // CSV агуулга үүсгэх (Excel нээнэ, UTF-8 BOM)
-  var rows=[['Villa','Өрөө','Тавилга','Ширхэг','Тэмдэглэл','Зураг']];
-  allGroups.forEach(function(g){
-    g.items.forEach(function(item){
-      var note='';
-      // Идэвхтэй өрөөний note-уудыг уншиж авах
-      document.querySelectorAll('.item-note').forEach(function(inp,i){
-        // approximate match by index isn't reliable across rooms — use blank
-      });
-      rows.push([
-        villa,
-        item.room||g.room,
-        item.furniture||'',
-        item.qty||'',
-        item.comment||'',
-        item.picPath||''
-      ]);
-    });
-  });
-
-  // CSV string
-  var csv='\uFEFF'; // UTF-8 BOM
-  rows.forEach(function(r){
-    csv+=r.map(function(c){
-      var s=(c||'').toString().replace(/"/g,'""');
-      return '"'+s+'"';
-    }).join(',')+'\r\n';
-  });
-
-  // Download
-  var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;
-  a.download=villa+'_'+ds.replace(/\//g,'-')+'.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
+// ── HELPERS ──
 function gasPost(body){
-  return fetch(GAS,{
-    method:'POST',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify(body),
-    redirect:'follow'
-  }).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); });
+  return fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),redirect:'follow'})
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();});
 }
-function setSt(msg,type){ var e=document.getElementById('st'); e.textContent=msg; e.className='pill'+(type?' '+type:''); }
-function esc(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function pad(n){ return String(n).padStart(2,'0'); }
-['uname','upass'].forEach(function(id){
-  var el=document.getElementById(id);
-  if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
-});
+function setSt(msg,type){var e=document.getElementById('st');e.textContent=msg;e.className='pill'+(type?' '+type:'');}
+function esc(s){return(s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+['uname','upass'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});});
 </script>
 </body>
 </html>
