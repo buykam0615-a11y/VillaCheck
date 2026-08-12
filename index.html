@@ -638,9 +638,12 @@ function renderTable(rows, villa) {
 // ══ GAS POST ══
 async function gasPost(body) {
   const res = await fetch(GAS_URL, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify(body)
+    method:   'POST',
+    // Content-Type: application/json хасав — Apps Script CORS preflight дэмждэггүй
+    // text/plain ашиглавал preflight илгээхгүй, шууд POST хийнэ
+    headers:  { 'Content-Type': 'text/plain;charset=utf-8' },
+    body:     JSON.stringify(body),
+    redirect: 'follow'   // Apps Script redirect буцаадаг тул дагах ёстой
   });
   if (!res.ok) throw new Error('HTTP ' + res.status);
   return res.json();
