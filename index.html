@@ -338,7 +338,7 @@ header{
     <div class="hero-bar">
       <div class="hero-bar-left">
         <div class="hero-bar-title" id="heroTitle">Villa сонгоно уу</div>
-        <div class="hero-bar-sub" id="heroSub">Хяналт хийх villa-г доороос сонгоно уу</div>
+        <div class="hero-bar-sub" id="heroSub">House сонгож түүнд хамаарагдах өрөө болон тавилгыг харна уу</div>
       </div>
       <div class="hero-controls">
         <div class="villa-select-wrap">
@@ -482,7 +482,7 @@ function loadCP(){
       var now=new Date();
       var ds=now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');
       document.getElementById('heroTitle').textContent='🏡 '+v;
-      document.getElementById('heroSub').textContent=total+' тавилга хяналттай · '+ds;
+      document.getElementById('heroSub').textContent=total+' тавилга шүүгдлээ · '+ds;
       document.getElementById('ttitle').textContent=v;
       document.getElementById('tsub').textContent=ds+' · '+total+' тавилга';
       document.getElementById('tbadge').textContent=allGroups.length+' өрөө';
@@ -528,7 +528,7 @@ function showRoom(roomName){
     html+='<div class="item-body">';
     html+='<div class="item-name">'+esc(item.furniture)+'</div>';
     html+='<div class="item-meta"><span class="qty-badge">× '+esc(item.qty||'—')+'</span></div>';
-    html+='<textarea class="item-note" rows="1" placeholder="Тэмдэглэл…">'+esc(item.comment||'')+'</textarea>';
+    html+='<textarea class="item-note" rows="1" placeholder="Тайлбар…">'+esc(item.comment||'')+'</textarea>';
     html+='</div></div>';
   });
   html+='</div>';
