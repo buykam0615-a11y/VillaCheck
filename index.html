@@ -527,6 +527,9 @@ function loadCP(){
 
   gasPost({action:'getCheckpoints',token:TOKEN,villa:v})
     .then(function(r){
+      // Debug мэдээлэл console-д
+      if(r.debug) console.log('VillaCheck Debug:', JSON.stringify(r.debug, null, 2));
+      
       if(!r.ok){
         document.getElementById('tc').innerHTML='<div class="emp"><div class="ei">⚠️</div><p>'+esc(r.error)+'</p></div>';
         setSt(r.error,'er');return;
@@ -737,7 +740,38 @@ function confirmPrint(){
   var groups = printMode === 'room'
     ? allGroups.filter(function(g){ return g.room === activeRoom; })
     : allGroups;
-  executePrint(groups);
+  
+  // Хэвлэхээс өмнө бүх зургийг preload хийх
+  var toLoad = [];
+  groups.forEach(function(g){
+    g.items.forEach(function(item){
+      if(item.picPath && !cache[item.picPath]) toLoad.push(item);
+    });
+  });
+  
+  if(toLoad.length === 0){
+    executePrint(groups);
+    return;
+  }
+  
+  // Loading indicator
+  setSt('Зураг ачаалж байна (' + toLoad.length + ')...', 'ld');
+  var done = 0;
+  toLoad.forEach(function(item){
+    gasPost({action:'getImageUrl', token:TOKEN, picturePath:item.picPath})
+      .then(function(r){
+        if(r.ok && r.url) cache[item.picPath] = r.url;
+      })
+      .catch(function(){})
+      .finally(function(){
+        done++;
+        setSt('Зураг ачаалж байна (' + done + '/' + toLoad.length + ')...', 'ld');
+        if(done >= toLoad.length){
+          setSt('', '');
+          executePrint(groups);
+        }
+      });
+  });
 }
 function executePrint(groups){
   var villa = document.getElementById('vsel').value || '';
@@ -754,7 +788,7 @@ function executePrint(groups){
   html += '<style>';
   html += '*{box-sizing:border-box;margin:0;padding:0}';
   html += 'body{font-family:"Plus Jakarta Sans",sans-serif;background:#fff;color:#0F0F0F;padding:32px}';
-  html += '.report-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:3px solid #C8973A}';
+  html += '.report-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:3px solid #C8973A;padding-top:0}';
   html += '.rh-left{}';
   html += '.rh-title{font-size:28px;font-weight:800;letter-spacing:-1px;color:#1A1A2E}';
   html += '.rh-sub{font-size:13px;color:#9A9A9A;margin-top:6px}';
@@ -777,7 +811,7 @@ function executePrint(groups){
   html += '.sum-item{text-align:center}';
   html += '.sum-num{font-size:24px;font-weight:800;color:#1A1A2E}';
   html += '.sum-lbl{font-size:11px;color:#9A9A9A;margin-top:2px}';
-  html += '@media print{body{padding:16px}.item-grid{grid-template-columns:repeat(4,1fr)}}';
+  html += '@media print{body{padding:12px;margin:0}.report-header{margin-bottom:16px;padding-bottom:12px}.room-section{page-break-inside:avoid;margin-bottom:20px}.item-grid{grid-template-columns:repeat(4,1fr)}}';
   html += '</style></head><body>';
 
   // Report header
@@ -822,7 +856,17 @@ function executePrint(groups){
   html += '<div class="sum-item"><div class="sum-num">'+(total-withImg)+'</div><div class="sum-lbl">Зураггүй</div></div>';
   html += '</div>';
 
-  html += '<script>window.onload=function(){window.print();}<\/script>';
+  // Зургууд бүгд ачаалагдсаны дараа print дуудах
+  html += '<script>';
+  html += 'var imgs=document.querySelectorAll("img");';
+  html += 'var total=imgs.length, loaded=0;';
+  html += 'function tryPrint(){loaded++;if(loaded>=total)setTimeout(function(){window.print();},300);}';
+  html += 'if(total===0){setTimeout(function(){window.print();},300);}';
+  html += 'else{imgs.forEach(function(img){';
+  html += '  if(img.complete){tryPrint();}';
+  html += '  else{img.onload=tryPrint;img.onerror=tryPrint;}';
+  html += '});}';
+  html += '<\/script>';
   html += '</body></html>';
 
   win.document.write(html);
