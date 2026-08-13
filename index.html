@@ -23,7 +23,7 @@
   --shadow-lg:0 8px 40px rgba(15,15,15,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'TIME NEW ROMAN',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 
 /* ── LOGIN ── */
 #loginWrap{
@@ -267,6 +267,35 @@ header{
 #lb .lbc:hover{background:rgba(255,255,255,.2)}
 #lb .lbcap{color:rgba(255,255,255,.5);font-size:13px;font-weight:500}
 
+
+/* ── PRINT MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9998;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:20px;padding:36px;width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,.2)}
+.modal-title{font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--ink3);margin-bottom:28px}
+.modal-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.modal-opt{
+  display:flex;align-items:center;gap:16px;padding:16px 20px;
+  border:2px solid var(--border);border-radius:14px;cursor:pointer;
+  transition:all .15s;background:var(--white);font-family:inherit;text-align:left;
+}
+.modal-opt:hover{border-color:var(--gold);background:var(--gold-l)}
+.modal-opt.selected{border-color:var(--gold);background:var(--gold-l)}
+.modal-opt-icon{font-size:28px;flex-shrink:0}
+.modal-opt-text strong{display:block;font-size:14px;font-weight:700;color:var(--ink)}
+.modal-opt-text span{font-size:12px;color:var(--ink3);margin-top:2px;display:block}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end}
+.modal-cancel{padding:11px 22px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--ink2)}
+.modal-cancel:hover{border-color:var(--ink)}
+.modal-confirm{padding:11px 22px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.modal-confirm:hover{background:#2a2a4e;transform:translateY(-1px)}
+
+/* Print layout */
+@media print{
+  #printModal{display:none!important}
+}
+
 @media print{
   body{background:#fff!important}
   #loginWrap,header,.hero-bar,.room-bar{display:none!important}
@@ -293,7 +322,7 @@ header{
       <div class="ll-sub">Вилла бүрийн тавилга, тоног<br>төхөөрөмжийн хяналтын систем</div>
       <div class="ll-badges">
         <span class="ll-badge">📋 Тавилга бүртгэл</span>
-        <span class="ll-badge">📷 Зургийн бүртгэл</span>
+        <span class="ll-badge">📷 Зургийн хяналт</span>
         <span class="ll-badge">📊 Excel тайлан</span>
       </div>
     </div>
@@ -338,7 +367,7 @@ header{
     <div class="hero-bar">
       <div class="hero-bar-left">
         <div class="hero-bar-title" id="heroTitle">Villa сонгоно уу</div>
-        <div class="hero-bar-sub" id="heroSub">House сонгож түүнд хамаарагдах өрөө болон тавилгыг харна уу</div>
+        <div class="hero-bar-sub" id="heroSub">Хяналт хийх villa-г доороос сонгоно уу</div>
       </div>
       <div class="hero-controls">
         <div class="villa-select-wrap">
@@ -386,6 +415,34 @@ header{
   <div class="lbcap" id="lbcap"></div>
 </div>
 
+
+<!-- Print Modal -->
+<div class="modal-overlay" id="printModal">
+  <div class="modal">
+    <div class="modal-title">🖨 Хэвлэх сонголт</div>
+    <div class="modal-sub">Ямар хэлбэрээр хэвлэх вэ?</div>
+    <div class="modal-opts">
+      <button class="modal-opt selected" id="optVilla" onclick="selectPrintOpt('villa')">
+        <div class="modal-opt-icon">🏡</div>
+        <div class="modal-opt-text">
+          <strong>Вилла бүхэлд нь</strong>
+          <span>Сонгосон вилла-ийн бүх өрөөний бүх тавилгыг зурагтайгаа хэвлэнэ</span>
+        </div>
+      </button>
+      <button class="modal-opt" id="optRoom" onclick="selectPrintOpt('room')">
+        <div class="modal-opt-icon">🚪</div>
+        <div class="modal-opt-text">
+          <strong>Зөвхөн энэ өрөө</strong>
+          <span id="optRoomSub">Одоо сонгосон өрөөний тавилгыг хэвлэнэ</span>
+        </div>
+      </button>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closePrintModal()">Болих</button>
+      <button class="modal-confirm" onclick="confirmPrint()">🖨 Хэвлэх</button>
+    </div>
+  </div>
+</div>
 <!-- Hidden file input -->
 <input type="file" id="imgFileInput" accept="image/*" style="display:none" onchange="onFileSelected(event)"/>
 
@@ -441,7 +498,7 @@ function doLogout(){
 }
 
 function loadBuildings(){
-  setSt('Progressing…','ld');
+  setSt('Уншиж байна…','ld');
   gasPost({action:'getBuildings',token:TOKEN})
     .then(function(r){
       if(!r.ok){setSt(r.error,'er');return;}
@@ -463,8 +520,8 @@ function loadCP(){
   document.getElementById('tcard').style.display='';
   document.getElementById('roomSel').innerHTML='<option value="">— Өрөө сонгох —</option>';
   document.getElementById('roomBadge').textContent='';
-  document.getElementById('tc').innerHTML='<div class="emp"><div style="width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p>Progressing…</p></div>';
-  setSt('Progressing…','ld');
+  document.getElementById('tc').innerHTML='<div class="emp"><div style="width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p>Уншиж байна…</p></div>';
+  setSt('Уншиж байна…','ld');
   document.getElementById('pbtn').disabled=true;
   document.getElementById('xlbtn').disabled=true;
 
@@ -482,7 +539,7 @@ function loadCP(){
       var now=new Date();
       var ds=now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');
       document.getElementById('heroTitle').textContent='🏡 '+v;
-      document.getElementById('heroSub').textContent=total+' тавилга шүүгдлээ · '+ds;
+      document.getElementById('heroSub').textContent=total+' тавилга хяналттай · '+ds;
       document.getElementById('ttitle').textContent=v;
       document.getElementById('tsub').textContent=ds+' · '+total+' тавилга';
       document.getElementById('tbadge').textContent=allGroups.length+' өрөө';
@@ -528,7 +585,7 @@ function showRoom(roomName){
     html+='<div class="item-body">';
     html+='<div class="item-name">'+esc(item.furniture)+'</div>';
     html+='<div class="item-meta"><span class="qty-badge">× '+esc(item.qty||'—')+'</span></div>';
-    html+='<textarea class="item-note" rows="1" placeholder="Тайлбар…">'+esc(item.comment||'')+'</textarea>';
+    html+='<textarea class="item-note" rows="1" placeholder="Тэмдэглэл…">'+esc(item.comment||'')+'</textarea>';
     html+='</div></div>';
   });
   html+='</div>';
@@ -658,31 +715,118 @@ function exportExcel(){
   document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
-// ── PRINT ──
+// ── PRINT MODAL ──
+var printMode = 'villa'; // 'villa' | 'room'
+
 function doPrint(){
-  var tc=document.getElementById('tc');
-  var orig=tc.innerHTML;
-  var all='';
-  allGroups.forEach(function(g){
-    all+='<div style="margin-bottom:32px;break-inside:avoid">';
-    all+='<div style="font-size:13pt;font-weight:700;border-bottom:2px solid #C8973A;padding-bottom:8px;margin-bottom:14px;color:#1A1A2E">'+esc(g.room)+'</div>';
-    all+='<div class="item-grid">';
+  // Өрөөний нэр modal-д харуулах
+  document.getElementById('optRoomSub').textContent = '"' + activeRoom + '" өрөөний тавилгыг хэвлэнэ';
+  selectPrintOpt('villa');
+  document.getElementById('printModal').classList.add('open');
+}
+function selectPrintOpt(mode){
+  printMode = mode;
+  document.getElementById('optVilla').classList.toggle('selected', mode==='villa');
+  document.getElementById('optRoom').classList.toggle('selected', mode==='room');
+}
+function closePrintModal(){
+  document.getElementById('printModal').classList.remove('open');
+}
+function confirmPrint(){
+  closePrintModal();
+  var groups = printMode === 'room'
+    ? allGroups.filter(function(g){ return g.room === activeRoom; })
+    : allGroups;
+  executePrint(groups);
+}
+function executePrint(groups){
+  var villa = document.getElementById('vsel').value || '';
+  var now = new Date();
+  var ds = now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');
+
+  // Тайлангийн HTML
+  var win = window.open('', '_blank', 'width=900,height=700');
+  var total = groups.reduce(function(s,g){return s+g.items.length;},0);
+
+  var html = '<!DOCTYPE html><html lang="mn"><head><meta charset="UTF-8">';
+  html += '<title>'+esc(villa)+' тайлан</title>';
+  html += '<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">';
+  html += '<style>';
+  html += '*{box-sizing:border-box;margin:0;padding:0}';
+  html += 'body{font-family:"Plus Jakarta Sans",sans-serif;background:#fff;color:#0F0F0F;padding:32px}';
+  html += '.report-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:3px solid #C8973A}';
+  html += '.rh-left{}';
+  html += '.rh-title{font-size:28px;font-weight:800;letter-spacing:-1px;color:#1A1A2E}';
+  html += '.rh-sub{font-size:13px;color:#9A9A9A;margin-top:6px}';
+  html += '.rh-right{text-align:right}';
+  html += '.rh-badge{background:#F5E9D4;color:#C8973A;border:1px solid rgba(200,151,58,.3);font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;display:inline-block}';
+  html += '.rh-date{font-size:12px;color:#9A9A9A;margin-top:8px}';
+  html += '.room-section{margin-bottom:36px;break-inside:avoid-page}';
+  html += '.room-title{font-size:15px;font-weight:800;color:#1A1A2E;padding:10px 16px;background:#F7F5F2;border-left:4px solid #C8973A;border-radius:0 8px 8px 0;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}';
+  html += '.room-count{font-size:11px;background:#F5E9D4;color:#C8973A;padding:3px 10px;border-radius:10px;font-weight:700}';
+  html += '.item-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}';
+  html += '.item-card{border:1px solid #E8E4DE;border-radius:10px;overflow:hidden;break-inside:avoid}';
+  html += '.item-img{width:100%;height:110px;object-fit:cover;display:block}';
+  html += '.item-ph{width:100%;height:110px;display:flex;align-items:center;justify-content:center;background:#F7F5F2;font-size:24px;color:#9A9A9A}';
+  html += '.item-body{padding:10px 12px}';
+  html += '.item-name{font-size:11px;font-weight:700;color:#0F0F0F;line-height:1.3;margin-bottom:6px}';
+  html += '.item-meta{display:flex;align-items:center;gap:6px;margin-bottom:6px}';
+  html += '.qty-badge{background:#F5E9D4;color:#C8973A;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px}';
+  html += '.item-note{font-size:10px;color:#9A9A9A;border-top:1px solid #E8E4DE;padding-top:6px;min-height:24px}';
+  html += '.summary{margin-top:32px;padding:16px 20px;background:#F7F5F2;border-radius:12px;display:flex;gap:32px}';
+  html += '.sum-item{text-align:center}';
+  html += '.sum-num{font-size:24px;font-weight:800;color:#1A1A2E}';
+  html += '.sum-lbl{font-size:11px;color:#9A9A9A;margin-top:2px}';
+  html += '@media print{body{padding:16px}.item-grid{grid-template-columns:repeat(4,1fr)}}';
+  html += '</style></head><body>';
+
+  // Report header
+  html += '<div class="report-header">';
+  html += '<div class="rh-left">';
+  html += '<div class="rh-title">🏡 '+esc(villa)+'</div>';
+  html += '<div class="rh-sub">Тавилгын хяналтын тайлан'+(printMode==='room'?' · '+esc(activeRoom):' · Бүх өрөө')+'</div>';
+  html += '</div>';
+  html += '<div class="rh-right">';
+  html += '<div class="rh-badge">'+total+' тавилга</div>';
+  html += '<div class="rh-date">'+ds+'</div>';
+  html += '</div></div>';
+
+  // Өрөө тус бүр
+  groups.forEach(function(g){
+    html += '<div class="room-section">';
+    html += '<div class="room-title">🚪 '+esc(g.room)+' <span class="room-count">'+g.items.length+' тавилга</span></div>';
+    html += '<div class="item-grid">';
     g.items.forEach(function(item){
-      var src=cache[item.picPath]||'';
-      all+='<div class="item-card">';
-      if(src)all+='<div class="item-img-wrap"><img class="item-img" src="'+src+'" alt="" style="width:100%;height:120px;object-fit:cover"/></div>';
-      else all+='<div class="item-ph" style="height:120px">📷<span>Зураг байхгүй</span></div>';
-      all+='<div class="item-body"><div class="item-name">'+esc(item.furniture)+'</div>';
-      all+='<div class="item-meta"><span class="qty-badge">× '+esc(item.qty||'—')+'</span></div>';
-      all+='<div style="font-size:11px;color:#9A9A9A;border-top:1px solid #E8E4DE;padding-top:6px;margin-top:6px">'+esc(item.comment||'')+'</div>';
-      all+='</div></div>';
+      var src = cache[item.picPath] || '';
+      html += '<div class="item-card">';
+      if(src){
+        html += '<img class="item-img" src="'+src+'" alt="'+esc(item.furniture)+'">';
+      } else {
+        html += '<div class="item-ph">🪑</div>';
+      }
+      html += '<div class="item-body">';
+      html += '<div class="item-name">'+esc(item.furniture)+'</div>';
+      html += '<div class="item-meta"><span class="qty-badge">× '+esc(item.qty||'—')+'</span></div>';
+      html += '<div class="item-note">'+esc(item.comment||'')+'</div>';
+      html += '</div></div>';
     });
-    all+='</div></div>';
+    html += '</div></div>';
   });
-  tc.innerHTML=all;
-  window.print();
-  tc.innerHTML=orig;
-  showRoom(activeRoom);
+
+  // Summary
+  html += '<div class="summary">';
+  html += '<div class="sum-item"><div class="sum-num">'+groups.length+'</div><div class="sum-lbl">Өрөө</div></div>';
+  html += '<div class="sum-item"><div class="sum-num">'+total+'</div><div class="sum-lbl">Нийт тавилга</div></div>';
+  var withImg = groups.reduce(function(s,g){return s+g.items.filter(function(i){return !!cache[i.picPath];}).length;},0);
+  html += '<div class="sum-item"><div class="sum-num">'+withImg+'</div><div class="sum-lbl">Зурагтай</div></div>';
+  html += '<div class="sum-item"><div class="sum-num">'+(total-withImg)+'</div><div class="sum-lbl">Зураггүй</div></div>';
+  html += '</div>';
+
+  html += '<script>window.onload=function(){window.print();}<\/script>';
+  html += '</body></html>';
+
+  win.document.write(html);
+  win.document.close();
 }
 
 // ── HELPERS ──
