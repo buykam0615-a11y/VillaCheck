@@ -498,7 +498,7 @@ function doLogout(){
 }
 
 function loadBuildings(){
-  setSt('Уншиж байна…','ld');
+  setSt('Progressing…','ld');
   gasPost({action:'getBuildings',token:TOKEN})
     .then(function(r){
       if(!r.ok){setSt(r.error,'er');return;}
@@ -520,8 +520,8 @@ function loadCP(){
   document.getElementById('tcard').style.display='';
   document.getElementById('roomSel').innerHTML='<option value="">— Өрөө сонгох —</option>';
   document.getElementById('roomBadge').textContent='';
-  document.getElementById('tc').innerHTML='<div class="emp"><div style="width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p>Уншиж байна…</p></div>';
-  setSt('Уншиж байна…','ld');
+  document.getElementById('tc').innerHTML='<div class="emp"><div style="width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p>Progressing…</p></div>';
+  setSt('Progressing…','ld');
   document.getElementById('pbtn').disabled=true;
   document.getElementById('xlbtn').disabled=true;
 
@@ -755,7 +755,7 @@ function confirmPrint(){
   }
   
   // Loading indicator
-  setSt('Зураг ачаалж байна (' + toLoad.length + ')...', 'ld');
+  setSt('Зураг татаж байна (' + toLoad.length + ')...', 'ld');
   var done = 0;
   toLoad.forEach(function(item){
     gasPost({action:'getImageUrl', token:TOKEN, picturePath:item.picPath})
@@ -765,7 +765,7 @@ function confirmPrint(){
       .catch(function(){})
       .finally(function(){
         done++;
-        setSt('Зураг ачаалж байна (' + done + '/' + toLoad.length + ')...', 'ld');
+        setSt('Зураг татаж байна (' + done + '/' + toLoad.length + ')...', 'ld');
         if(done >= toLoad.length){
           setSt('', '');
           executePrint(groups);
